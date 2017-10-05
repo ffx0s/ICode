@@ -1,5 +1,8 @@
 # 基于React-native开发的聚合阅读APP
 
+## 截图
+<img src="https://o818xvhxo.qnssl.com/o_1brlvnmfh10ncg6vgm1oic10oj9.gif" width="318" />
+
 ## 项目版本
 
 `"react": "16.0.0-alpha.12"`  
