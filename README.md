@@ -1,7 +1,8 @@
-# 基于React-native开发的聚合阅读APP
+﻿# 基于React-native开发的聚合阅读APP
 
 ## 截图
-<img src="https://o818xvhxo.qnssl.com/o_1brlvnmfh10ncg6vgm1oic10oj9.gif" width="318" />
+<img src="https://o818xvhxo.qnssl.com/o_1brvrgc7g1nvc1cbnstpn056g3b.gif" width="318" />
+<img src="https://o818xvhxo.qnssl.com/o_1brvrgc7g19db30vo3h1hqo1euga.gif" width="318" />
 
 ## 项目版本
 
