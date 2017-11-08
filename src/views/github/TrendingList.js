@@ -10,10 +10,13 @@ import {
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view'
 
 import { ScrollList } from '../../components'
+import { baseNavigationOptions } from '../../util'
 import TrendingItem from './modules/TrendingItem'
 import github from '../../api/github'
 
-export default class V2ex extends Component {
+export default class TrendingList extends Component {
+  static navigationOptions = baseNavigationOptions
+
   constructor (props) {
     super(props)
     this.state = {
@@ -43,7 +46,7 @@ export default class V2ex extends Component {
           tabBarInactiveTextColor="mintcream"
           tabBarActiveTextColor="white"
           tabBarTextStyle={{ fontSize: 15 }}
-          tabBarBackgroundColor="#3496f0"
+          tabBarBackgroundColor={this.props.screenProps.theme.color}
           ref="scrollableTabView"
           initialPage={0}
           renderTabBar={() => <ScrollableTabBar style={{height: 40, borderWidth: 0, elevation: 2}} itemstyle={{height: 39}} />}
@@ -55,15 +58,15 @@ export default class V2ex extends Component {
               key={index}
               // 数据请求方法
               fetch={github[tab.api]}
-              // 请求参数
-              params={tab.params}
+              fetch={() => { return github[tab.api](...(tab.params || [])) }}
               // 渲染 item
               renderItem={({item, index}) =>
                 <TrendingItem
                   item={item}
-                  onPress={() => { this.props.navigation.navigate('Repository', { uri: `https://github.com/${item.url}` }) }}
+                  onPress={() => { this.props.navigation.navigate('WebView', { uri: `https://github.com/${item.url}`, title: 'Repository' }) }}
                 />
               }
+              screenProps={this.props.screenProps}
             />
           })}
         </ScrollableTabView>

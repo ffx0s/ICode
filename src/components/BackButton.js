@@ -12,7 +12,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons'
 import { px2dp } from '../util'
 
-export class HeaderLeft extends Component {
+export class BackButton extends Component {
   goBack () {
     this.props.navigation.goBack()
   }

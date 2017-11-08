@@ -35,7 +35,7 @@ export default class CommentItem extends Component {
           <View style={[styles.column, styles.header]}>
             <View style={[styles.row, { justifyContent: 'space-between' }]}>
               {/* 用户名 */}
-              <Text style={styles.blue}>{item.member.username}</Text>
+              <Text style={{ color: this.props.screenProps.theme.color }}>{item.member.username}</Text>
               <View style={[styles.row, styles.alignCenter]}>
                 {
                   item.thanks ? (
@@ -93,9 +93,6 @@ const styles = StyleSheet.create({
   },
   gray: {
     color: '#757575'
-  },
-  blue: {
-    color: '#3496f0'
   },
   alignCenter: {
     alignItems: 'center'

@@ -1,6 +1,7 @@
 /**
- * v2ex相关接口
+ * v2ex 相关接口
  */
+
 import { Request } from '../util'
 
 const request = new Request()
@@ -12,6 +13,15 @@ request.response = response => {
     return []
   } else {
     return response.json()
+  }
+}
+
+if (global.__DEV__) {
+  request.get = function (url) {
+    return new Promise((resolve, reject) => {
+      let data = url.indexOf('show.json?topic_id') !== -1 ? require('../data/comment.json') : require('../data/topic.json')
+      resolve(data)
+    })
   }
 }
 

@@ -28,10 +28,12 @@ export default class CommentList extends Component {
       <View style={styles.container}>
         <ScrollList
           ListHeaderComponent={this.props.ListHeaderComponent}
+          ListEmptyComponent={<View></View>}
           fetch={() => { return v2ex.getComment(id) }}
           renderItem={({item, index}) =>
-            <CommentItem item={item} index={index} />
+            <CommentItem item={item} index={index} screenProps={this.props.screenProps} />
           }
+          screenProps={this.props.screenProps}
         />
       </View>
     )

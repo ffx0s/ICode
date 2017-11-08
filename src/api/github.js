@@ -1,10 +1,14 @@
+/**
+ * github 相关接口
+ */
+
 import GitHubTrending from 'GitHubTrending'
 import { Request } from '../util'
 
 const trending = new GitHubTrending()
 const request = new Request()
 
-// // 统一处理 http 响应状态
+// 统一处理 http 响应状态
 request.response = response => {
   if (response.status !== 200) {
     console.log(response.status, response)

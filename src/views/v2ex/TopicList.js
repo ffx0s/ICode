@@ -10,11 +10,14 @@ import {
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view'
 
 import { ScrollList } from '../../components'
+import { baseNavigationOptions } from '../../util'
 
 import TopicItem from './modules/TopicItem'
 import v2ex from '../../api/v2ex'
 
-export default class V2ex extends Component {
+export default class TopicList extends Component {
+  static navigationOptions = baseNavigationOptions
+
   constructor (props) {
     super(props)
     this.state = {
@@ -52,7 +55,8 @@ export default class V2ex extends Component {
         name: '交易',
         api: 'getNodeTopic',
         params: ['deals']
-      }]
+      }],
+      tabBarBackgroundColor: '#3496f0'
     }
   }
 
@@ -62,11 +66,11 @@ export default class V2ex extends Component {
     return (
       <View style={styles.container}>
         <ScrollableTabView
-          tabBarUnderlineStyle={{backgroundColor: '#e7e7e7', height: 2}}
+          tabBarUnderlineStyle={{backgroundColor: 'white', height: 2}}
           tabBarInactiveTextColor="mintcream"
           tabBarActiveTextColor="white"
           tabBarTextStyle={{ fontSize: 15 }}
-          tabBarBackgroundColor="#3496f0"
+          tabBarBackgroundColor={this.props.screenProps.theme.color}
           ref="scrollableTabView"
           initialPage={0}
           renderTabBar={() => <ScrollableTabBar style={{height: 40, borderWidth: 0, elevation: 2}} itemstyle={{height: 39}} />}
@@ -77,16 +81,15 @@ export default class V2ex extends Component {
               tabLabel={tab.name}
               key={index}
               // 数据请求方法
-              fetch={v2ex[tab.api]}
-              // 请求参数
-              params={tab.params}
+              fetch={() => { return v2ex[tab.api](...(tab.params || [])) }}
               // 渲染 item
               renderItem={({item, index}) =>
                 <TopicItem
                   item={item}
-                  onPress={() => { this.props.navigation.navigate('Detail', { id: item.id, data: item }) }}
+                  onPress={() => { this.props.navigation.navigate('TopicDetail', { id: item.id, data: item }) }}
                 />
               }
+              screenProps={this.props.screenProps}
             />
           })}
         </ScrollableTabView>

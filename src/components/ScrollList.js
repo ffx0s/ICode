@@ -17,14 +17,8 @@ export class ScrollList extends Component {
     renderItem: PropTypes.func.isRequired,
     // 刷新请求函数
     fetch: PropTypes.func.isRequired,
-    // 请求参数
-    params: PropTypes.array,
     // 列表头部组件
     ListHeaderComponent: PropTypes.element
-  }
-
-  static defaultProps = {
-    params: []
   }
 
   constructor (props) {
@@ -44,7 +38,7 @@ export class ScrollList extends Component {
     // 设置loading状态
     this.setState({ isLoading: true })
     // 请求数据
-    let result = await this.props.fetch(...this.props.params)
+    let result = await this.props.fetch()
     // 设置数据状态
     this.setState({
       data: result,
@@ -59,15 +53,15 @@ export class ScrollList extends Component {
         renderItem={this.props.renderItem}
         keyExtractor={this._keyExtractor}
         ListHeaderComponent={this.props.ListHeaderComponent}
-        ListEmptyComponent={!this.state.isLoading ? <ListEmptyComponent text="空空如也～" /> : null}
+        ListEmptyComponent={!this.state.isLoading ? this.props.ListEmptyComponent || <ListEmptyComponent text="空空如也～" /> : null}
         refreshControl={
           <RefreshControl
             title='Loading...'
-            titleColor='#2196F3'
-            colors={['#2196F3']}
+            titleColor={this.props.screenProps.theme.color}
+            colors={[this.props.screenProps.theme.color]}
             refreshing={this.state.isLoading}
             onRefresh={this.onRefresh.bind(this)}
-            tintColor='#2196F3'
+            tintColor={this.props.screenProps.theme.color}
           />
         }
       />

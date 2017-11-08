@@ -1,3 +1,5 @@
+import { AsyncStorage } from 'react-native'
+
 /**
  * 请求数据序列化
  * @param {Object} data 数据对象
@@ -51,4 +53,39 @@ export function dateFrom (time) {
   if (diffValue / hour >= 1) return parseInt(diffValue / hour) + '小时前'
   if (diffValue / minute >= 1) return parseInt(diffValue / minute) + '分钟前'
   return '刚刚'
+}
+
+/**
+ * 终止 promise 操作
+ * @param {Object} promise promise 对象
+ */
+
+export function promiseBreak (promise) {
+  let wrapperdPromise = new Promise((resolve, reject) => {
+    promise.then(result => {
+      wrapperdPromise.break ? reject(new Error('break')) : resolve(result)
+    })
+  })
+  wrapperdPromise.break = false
+  return wrapperdPromise
+}
+
+/**
+ * 本地存储
+ */
+export const localStorage = {
+  get (key) {
+    try {
+      return AsyncStorage.getItem(key)
+    } catch (error) {
+      console.error('AsyncStorage.getItem error:', error)
+    }
+  },
+  set (key, value) {
+    try {
+      return AsyncStorage.setItem(key, value)
+    } catch (error) {
+      console.error('AsyncStorage.setItem error:', error)
+    }
+  }
 }
