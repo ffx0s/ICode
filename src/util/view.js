@@ -14,6 +14,8 @@ export function px2dp (px) {
   return px * deviceW / basePx
 }
 
+export const HEADER_HEIGHT = 65
+
 /**
  * 视图通用 navigation options
  */
@@ -30,7 +32,7 @@ export function baseNavigationOptions ({ navigation, screenProps }, options = {}
     headerStyle: {
       backgroundColor: screenProps.theme.color,
       borderBottomColor: screenProps.theme.color,
-      height: 65
+      height: HEADER_HEIGHT
     },
     headerLeft: null,
     headerRight: null
@@ -46,8 +48,7 @@ export const markdownStyles = {
     fontSize: 18
   },
   paragraph: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginVertical: 10,
     fontSize: 16,
     lineHeight: 26
   },
@@ -59,6 +60,7 @@ export const markdownStyles = {
 
 // 路由与图标的映射
 let iconsMap = {
+  'Daily': 'ios-paper',
   'V2ex': 'logo-vimeo',
   'Github': 'logo-github',
   'Settings': 'md-settings'

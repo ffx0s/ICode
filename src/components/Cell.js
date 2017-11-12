@@ -2,13 +2,9 @@
  * Cell
  */
 
-import React, { Component, PropTypes } from 'react'
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableHighlight
-} from 'react-native'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { StyleSheet, View, Text, TouchableHighlight } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { px2dp } from '../util'
 

@@ -2,13 +2,12 @@
  * webview
  */
 
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { WebView } from 'react-native'
 
 export class WebViewComponent extends Component {
-  // 组件属性
   static PropTypes = {
-    // webview打开的链接
     uri: PropTypes.func.isRequired
   }
 

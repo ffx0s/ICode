@@ -28,13 +28,4 @@
 │   ├── views      # 页面视图
 ```
 
-## 已实现的功能  
-
-- [x] V2ex 主题列表
-- [x] V2ex 主题详情和评论的查看
-- [x] Github trending 列表
-- [x] Github repository 查看  
-- [ ] V2ex 主题列表可以自定义主题的类型
-- [ ] trending 添加通过语言查询功能
-
 > 项目使用了[Create React Native App](https://github.com/react-community/create-react-native-app)进行初始化

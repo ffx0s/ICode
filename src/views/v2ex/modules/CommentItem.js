@@ -2,7 +2,8 @@
  * 主题评论 item
  */
 
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Markdown from 'react-native-simple-markdown'
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'

@@ -2,11 +2,9 @@
  * 主题评论列表
  */
 
-import React, { Component, PropTypes } from 'react'
-import {
-  StyleSheet,
-  View
-} from 'react-native'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { StyleSheet, View } from 'react-native'
 
 import { ScrollList } from '../../../components'
 import CommentItem from './CommentItem'

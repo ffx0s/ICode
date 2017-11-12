@@ -2,11 +2,9 @@
  * Group
  */
 
-import React, { Component, PropTypes } from 'react'
-import {
-  StyleSheet,
-  View
-} from 'react-native'
+import React, { Component } from 'react'
+import { StyleSheet, View } from 'react-native'
+import PropTypes from 'prop-types'
 
 export class Group extends Component {
   static propTypes = {

@@ -2,13 +2,9 @@
  * 上下拉刷新列表组件
  */
 
-import React, { Component, PropTypes } from 'react'
-import {
-  FlatList,
-  RefreshControl,
-  View,
-  Text
-} from 'react-native'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { FlatList, RefreshControl, View, Text } from 'react-native'
 
 export class ScrollList extends Component {
   // 组件属性

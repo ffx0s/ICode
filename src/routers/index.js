@@ -4,6 +4,7 @@ import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation'
 
 import Guide from '../views/guide'
 import WebView from '../views/webView'
+import Daily from '../views/daily'
 import TopicList from '../views/v2ex/TopicList'
 import TopicDetail from '../views/v2ex/TopicDetail'
 import TrendingList from '../views/github/TrendingList'
@@ -30,17 +31,21 @@ let tabNavigatorConfig = {
 }
 
 let TabNav = TabNavigator({
+  Daily: {
+    screen: Daily,
+    path: '/daily'
+  },
   V2ex: {
     screen: TopicList,
-    path: '/'
+    path: '/v2ex'
   },
   Github: {
     screen: TrendingList,
-    path: '/Github'
+    path: '/github'
   },
   Settings: {
     screen: Settings,
-    path: '/Settings'
+    path: '/settings'
   }
 }, tabNavigatorConfig)
 
@@ -70,7 +75,7 @@ const Routers = StackNavigator({
   },
   Guide: {
     screen: Guide,
-    path: '/Guide'
+    path: '/guide'
   }
 }, {
   initialRouteName: 'Guide'
