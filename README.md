@@ -3,7 +3,7 @@
 ## 截图
 |  |  |
 | --- | ------- |
-| ![](https://o818xvhxo.qnssl.com/app-gif.gif) | ![](https://o818xvhxo.qnssl.com/app-1.png) | 
+| ![](https://o818xvhxo.qnssl.com/app-gif.gif) | ![](https://o818xvhxo.qnssl.com/app-1.png =320x) | 
 | ![](https://o818xvhxo.qnssl.com/app-2.png) | ![](https://o818xvhxo.qnssl.com/app-3.png) | 
 | ![](https://o818xvhxo.qnssl.com/app-4.png) | ![](https://o818xvhxo.qnssl.com/app-5.png) |
 
