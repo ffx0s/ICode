@@ -1,11 +1,4 @@
 {
-  "expo": {
-    "sdkVersion": "21.0.0",
-    "ios": {
-      "bundleIdentifier": ""
-    },
-    "android": {
-      "package": ""
-    }
-  }
+  "name": "ICode",
+  "displayName": "ICode"
 }
