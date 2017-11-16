@@ -2,7 +2,7 @@
  * 知乎日报相关接口
  */
 
-import { Request } from '../util'
+import { Request, sleep } from '../util'
 
 const request = new Request()
 
@@ -17,32 +17,51 @@ request.response = response => {
 }
 
 if (global.__DEV__) {
-  request.get = function (url) {
-    return new Promise((resolve, reject) => {
-      let data = url.indexOf('/news/latest') !== -1 ? require('../data/zhihu_latest.json') : require('../data/zhihu_news.json')
-      resolve(data)
+  const mockData = {
+    'zhihu_theme.json': require('../data/zhihu_theme.json'),
+    'zhihu_latest.json': require('../data/zhihu_latest.json'),
+    'zhihu_news.json': require('../data/zhihu_news.json'),
+    'zhihu_themeList.json': require('../data/zhihu_themeList.json')
+  }
+  request.get = function (url, fileName) {
+    return new Promise(async (resolve, reject) => {
+      await sleep(200)
+      resolve(mockData[fileName])
     })
   }
 }
 
 export default {
   /**
+   * 获取所有主题类目
+   */
+  getThemes () {
+    return request.get('https://news-at.zhihu.com/api/4/themes', 'zhihu_theme.json')
+  },
+  /**
    * 获取最新日报列表
    */
   getLastest () {
-    return request.get('https://news-at.zhihu.com/api/4/news/latest')
+    return request.get('https://news-at.zhihu.com/api/4/news/latest', 'zhihu_latest.json')
   },
   /**
    * 获取最热日报列表
    */
   getHotNews () {
-    return request.get(`https://news-at.zhihu.com/api/3/news/hot`)
+    return request.get(`https://news-at.zhihu.com/api/3/news/hot`, 'zhihu_latest.json')
   },
   /**
-   * 获取日报内容
+   * 根据主题类目 id 获取列表
+   * @param {Number} id 主题id
+   */
+  getThemeList (id) {
+    return request.get(`https://news-at.zhihu.com/api/4/theme/${id}`, 'zhihu_themeList.json')
+  },
+  /**
+   * 根据主题 id 获取日报内容
    * @param {Number} id 主题id
    */
   getNews (id) {
-    return request.get(`https://news-at.zhihu.com/api/4/news/${id}`)
+    return request.get(`https://news-at.zhihu.com/api/4/news/${id}`, 'zhihu_news.json')
   }
 }

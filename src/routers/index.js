@@ -5,6 +5,7 @@ import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation'
 import Guide from '../views/guide'
 import WebView from '../views/webView'
 import Daily from '../views/daily'
+import DailyDetail from '../views/daily/DailyDetail'
 import TopicList from '../views/v2ex/TopicList'
 import TopicDetail from '../views/v2ex/TopicDetail'
 import TrendingList from '../views/github/TrendingList'
@@ -25,7 +26,7 @@ let tabNavigatorConfig = {
   tabBarComponent,
   tabBarPosition: 'bottom',
   swipeEnabled: false,
-  initialRouteName: 'V2ex',
+  initialRouteName: 'Daily',
   lazy: true // 懒加载 Tab
   // animationEnabled: true
 }
@@ -52,6 +53,10 @@ let TabNav = TabNavigator({
 const Routers = StackNavigator({
   Root: {
     screen: TabNav
+  },
+  DailyDetail: {
+    screen: DailyDetail,
+    path: '/dailyDetail/:id'
   },
   TopicDetail: {
     screen: TopicDetail,
