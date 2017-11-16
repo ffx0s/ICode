@@ -20,9 +20,9 @@ request.response = response => {
 
 export default {
   /**
-   * 
-   * @param {String} language 编程语言
+   * 根据时间获取语言趋势
    * @param {String} since 时间 (三选一：daily / weekly / monthly)
+   * @param {String} language 编程语言
    */
   getTrending (since = 'daily', language = '') {
     return trending.fetchTrending(`https://github.com/trending/${language}?since=${since}`)

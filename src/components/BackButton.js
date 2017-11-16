@@ -18,12 +18,14 @@ export class BackButton extends Component {
   }
 
   render () {
-    return <TouchableOpacity onPress={this.goBack.bind(this)}>
-      <View style={styles.container}>
-        <Icon style={styles.icon} name="ios-arrow-back" size={px2dp(30)} color="white" />
-        <Text style={styles.text}>{this.props.text}</Text>
-      </View>
-    </TouchableOpacity>
+    return (
+      <TouchableOpacity onPress={this.goBack.bind(this)}>
+        <View style={styles.container}>
+          <Icon style={styles.icon} name="ios-arrow-back" size={px2dp(30)} color="white" />
+          <Text style={styles.text}>{this.props.text}</Text>
+        </View>
+      </TouchableOpacity>
+    )
   }
 }
 

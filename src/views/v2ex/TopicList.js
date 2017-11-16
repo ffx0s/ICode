@@ -7,10 +7,10 @@ import {
   StyleSheet,
   View
 } from 'react-native'
-import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view'
+import ScrollableTabView from 'react-native-scrollable-tab-view'
 
 import { ScrollList } from '../../components'
-import { baseNavigationOptions } from '../../util'
+import { baseNavigationOptions, getScrollableTabViewProps } from '../../util'
 
 import TopicItem from './modules/TopicItem'
 import v2ex from '../../api/v2ex'
@@ -55,8 +55,7 @@ export default class TopicList extends Component {
         name: '交易',
         api: 'getNodeTopic',
         params: ['deals']
-      }],
-      tabBarBackgroundColor: '#3496f0'
+      }]
     }
   }
 
@@ -66,14 +65,7 @@ export default class TopicList extends Component {
     return (
       <View style={styles.container}>
         <ScrollableTabView
-          tabBarUnderlineStyle={{backgroundColor: 'white', height: 2}}
-          tabBarInactiveTextColor="mintcream"
-          tabBarActiveTextColor="white"
-          tabBarTextStyle={{ fontSize: 15 }}
-          tabBarBackgroundColor={this.props.screenProps.theme.color}
-          ref="scrollableTabView"
-          initialPage={0}
-          renderTabBar={() => <ScrollableTabBar style={{height: 40, borderWidth: 0, elevation: 2}} itemstyle={{height: 39}} />}
+          {...getScrollableTabViewProps(this)}
         >
           {this.state.tabs.map((tab, index) => {
             return <ScrollList

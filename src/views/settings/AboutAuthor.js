@@ -3,14 +3,12 @@
  */
 
 import React, { Component } from 'react'
-import {
-  Dimensions, Image, StyleSheet, Text, View
-} from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
-import { baseNavigationOptions, HEADER_HEIGHT } from '../../util'
+import { baseNavigationOptions, deviceW } from '../../util'
 import { Group, Cell, BackButton } from '../../components'
 
-class About extends Component {
+export default class About extends Component {
   static navigationOptions ({ navigation, screenProps }) {
     return baseNavigationOptions({ navigation, screenProps }, {
       header: null
@@ -29,14 +27,14 @@ class About extends Component {
         renderBackground={() =>
           <View key="background">
             <Image source={{
-              uri: 'http://7jptea.com1.z0.glb.clouddn.com/ceddJB493dB4A.jpg',
-              width: window.width,
+              uri: 'https://o818xvhxo.qnssl.com/ceddJB493dB4A.jpg',
+              width: deviceW,
               height: PARALLAX_HEADER_HEIGHT
             }}/>
             <View style={{
               position: 'absolute',
               top: 0,
-              width: window.width,
+              width: deviceW,
               backgroundColor: 'rgba(0,0,0,.4)',
               height: PARALLAX_HEADER_HEIGHT
             }}/>
@@ -46,7 +44,7 @@ class About extends Component {
         renderForeground={() =>
           <View key="parallax-header" style={ styles.parallaxHeader }>
             <Image style={ styles.avatar } source={{
-              uri: 'http://7jptea.com1.z0.glb.clouddn.com/logo.jpg',
+              uri: 'https://o818xvhxo.qnssl.com/logo.jpg',
               width: AVATAR_SIZE,
               height: AVATAR_SIZE
             }}/>
@@ -76,8 +74,7 @@ class About extends Component {
   }
 }
 
-const window = Dimensions.get('window')
-
+const HEADER_HEIGHT = 65
 const AVATAR_SIZE = 100
 const PARALLAX_HEADER_HEIGHT = 300
 
@@ -118,5 +115,3 @@ const styles = StyleSheet.create({
     paddingVertical: 5
   }
 })
-
-export default About

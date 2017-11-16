@@ -17,7 +17,7 @@ export default {
   },
   /**
    * 保存主题
-   * @param {主题} theme 
+   * @param {主题} theme
    */
   saveTheme (theme) {
     return localStorage.set('theme', JSON.stringify(theme))

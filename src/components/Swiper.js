@@ -4,9 +4,10 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, Image } from 'react-native'
+import { View, Image, Text, TouchableOpacity } from 'react-native'
 import { deviceW } from '../util'
 import SwiperComponent from 'react-native-swiper'
+import LinearGradient from 'react-native-linear-gradient'
 
 const loading = require('../assets/images/loading.gif')
 const styles = {
@@ -34,19 +35,54 @@ const styles = {
     bottom: 0,
     backgroundColor: 'white'
   },
-
   loadingImage: {
     width: 60,
     height: 60
   },
   pagination: {
-    bottom: 10
+    bottom: 8
+  },
+  dotStyle: {
+    width: 6,
+    height: 6
+  },
+  activeDotStyle: {
+    width: 6,
+    height: 6
+  },
+  linearGradient: {
+    position: 'absolute',
+    bottom: 0,
+    padding: 10,
+    paddingBottom: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    minHeight: 55,
+    zIndex: 1
+  },
+  slideText: {
+    width: '100%',
+    fontSize: 18,
+    color: 'white',
+    backgroundColor: 'transparent'
   }
 }
 
 const Item = props => {
   return (
-    <View style={styles.slide}>
+    <TouchableOpacity
+      activeOpacity={1}
+      onPress={props.onPress}
+      style={styles.slide}
+    >
+      {
+        props.text && (
+          <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,.3)', 'rgba(0,0,0,.4)', 'rgba(0,0,0,.6)', 'rgba(0,0,0,.8)']} style={styles.linearGradient}>
+            <Text style={styles.slideText}>{props.text}</Text>
+          </LinearGradient>
+        )
+      }
       <Image onLoad={props.loadHandle.bind(null, props.i)} resizeMode='cover' style={[styles.image, {height: props.height}]} source={{uri: props.uri}} />
       {
         !props.loaded && (
@@ -55,7 +91,7 @@ const Item = props => {
           </View>
         )
       }
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -80,9 +116,7 @@ export class Swiper extends Component {
   loadHandle (i) {
     let loadQueue = this.state.loadQueue
     loadQueue[i] = 1
-    this.setState({
-      loadQueue
-    })
+    this.setState({ loadQueue })
   }
   render () {
     return (
@@ -91,10 +125,11 @@ export class Swiper extends Component {
           this.props.imgList.length ? (
             <SwiperComponent
               style={styles.wrapper}
-              loop={false}
               height={this.props.height}
               paginationStyle={styles.pagination}
-              activeDotColor={this.props.screenProps.theme.color}
+              dotStyle={styles.dotStyle}
+              activeDotStyle={styles.activeDotStyle}
+              activeDotColor='white'
               {...this.props.swiperProps}
             >
               {
@@ -102,9 +137,11 @@ export class Swiper extends Component {
                   <Item
                     loadHandle={this.loadHandle}
                     loaded={!!this.state.loadQueue[i]}
-                    uri={item}
+                    uri={item.uri}
                     i={i}
                     key={i}
+                    text={item.text}
+                    onPress={() => { this.props.onPress(item, i) }}
                   />
                 ))
               }

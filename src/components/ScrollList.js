@@ -7,11 +7,10 @@ import PropTypes from 'prop-types'
 import { FlatList, RefreshControl, View, Text } from 'react-native'
 
 export class ScrollList extends Component {
-  // 组件属性
   static PropTypes = {
     // FlatList 组件 renderItem 函数
     renderItem: PropTypes.func.isRequired,
-    // 刷新请求函数
+    // 刷新时请求数据的函数
     fetch: PropTypes.func.isRequired,
     // 列表头部组件
     ListHeaderComponent: PropTypes.element
@@ -27,10 +26,10 @@ export class ScrollList extends Component {
   }
 
   componentDidMount () {
-    this.onRefresh()
+    this.refresh()
   }
 
-  async onRefresh () {
+  async refresh () {
     // 设置loading状态
     this.setState({ isLoading: true })
     // 请求数据
@@ -56,7 +55,7 @@ export class ScrollList extends Component {
             titleColor={this.props.screenProps.theme.color}
             colors={[this.props.screenProps.theme.color]}
             refreshing={this.state.isLoading}
-            onRefresh={this.onRefresh.bind(this)}
+            onRefresh={this.refresh.bind(this)}
             tintColor={this.props.screenProps.theme.color}
           />
         }
