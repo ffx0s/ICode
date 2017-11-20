@@ -62,6 +62,6 @@ export default {
    * @param {Number} id 主题id
    */
   getNews (id) {
-    return request.get(`https://news-at.zhihu.com/api/4/news/${id}`, 'zhihu_news.json')
+    return request.get(`https://news-at.zhihu.com/api/7/story/${id}`, 'zhihu_news.json')
   }
 }

@@ -9,6 +9,7 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view'
 import LinearGradient from 'react-native-linear-gradient'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { baseNavigationOptions, deviceW, htmlViewStyles, px2dp, placeholderImage } from '../../util'
+import { WebViewComponent } from '../../components'
 import zhihu from '../../api/zhihu'
 
 function renderNode (node, index, siblings, parent, defaultRenderer) {
@@ -60,61 +61,65 @@ export default class DailyDetail extends Component {
   }
 
   render () {
+    const externalUrl = this.state.data.external_url
+    const content = externalUrl ? <WebViewComponent uri={externalUrl} /> : (
+      <ParallaxScrollView
+        contentBackgroundColor="white"
+        headerBackgroundColor={this.props.screenProps.theme.color}
+        backgroundColor="rgba(0,0,0,.3)"
+        stickyHeaderHeight={ HEADER_HEIGHT }
+        parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
+        backgroundSpeed={10}
+        renderBackground={() =>
+          <View key="background">
+            <Image
+              source={{
+                uri: this.state.data.image,
+                width: deviceW,
+                height: PARALLAX_HEADER_HEIGHT
+              }}
+              defaultSource={placeholderImage}
+            />
+            <View style={{
+              position: 'absolute',
+              top: 0,
+              width: deviceW,
+              backgroundColor: 'rgba(0,0,0,.4)',
+              height: PARALLAX_HEADER_HEIGHT
+            }}/>
+          </View>
+        }
+
+        renderForeground={() =>
+          <View key="parallax-header" style={ styles.parallaxHeader }>
+            <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,.3)', 'rgba(0,0,0,.4)', 'rgba(0,0,0,.6)', 'rgba(0,0,0,.8)']} style={styles.linearGradient}>
+              <Text style={styles.title}>{this.state.data.title}</Text>
+            </LinearGradient>
+          </View>
+        }
+
+        renderStickyHeader={() =>
+          <View key="sticky-header" style={styles.stickySection}></View>
+        }
+      >
+        {
+          this.state.data.body ? (
+            <View style={styles.bodyContent}>
+              <HTMLView
+                renderNode={renderNode}
+                value={getContent(this.state.data.body)}
+                addLineBreaks={false}
+                stylesheet={htmlViewStyles}
+                onLinkPress={uri => this.props.navigation.navigate('WebView', { uri })}
+              />
+            </View>
+          ) : null
+        }
+      </ParallaxScrollView>
+    )
     return (
       <View style={styles.container}>
-        <ParallaxScrollView
-          contentBackgroundColor="white"
-          headerBackgroundColor={this.props.screenProps.theme.color}
-          backgroundColor="rgba(0,0,0,.3)"
-          stickyHeaderHeight={ HEADER_HEIGHT }
-          parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
-          backgroundSpeed={10}
-          renderBackground={() =>
-            <View key="background">
-              <Image
-                source={{
-                  uri: this.state.data.image,
-                  width: deviceW,
-                  height: PARALLAX_HEADER_HEIGHT
-                }}
-                defaultSource={placeholderImage}
-              />
-              <View style={{
-                position: 'absolute',
-                top: 0,
-                width: deviceW,
-                backgroundColor: 'rgba(0,0,0,.4)',
-                height: PARALLAX_HEADER_HEIGHT
-              }}/>
-            </View>
-          }
-
-          renderForeground={() =>
-            <View key="parallax-header" style={ styles.parallaxHeader }>
-              <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,.3)', 'rgba(0,0,0,.4)', 'rgba(0,0,0,.6)', 'rgba(0,0,0,.8)']} style={styles.linearGradient}>
-                <Text style={styles.title}>{this.state.data.title}</Text>
-              </LinearGradient>
-            </View>
-          }
-
-          renderStickyHeader={() =>
-            <View key="sticky-header" style={styles.stickySection}></View>
-          }
-        >
-          {
-            this.state.data.body ? (
-              <View style={styles.bodyContent}>
-                <HTMLView
-                  renderNode={renderNode}
-                  value={getContent(this.state.data.body)}
-                  addLineBreaks={false}
-                  stylesheet={htmlViewStyles}
-                  onLinkPress={uri => this.props.navigation.navigate('WebView', { uri })}
-                />
-              </View>
-            ) : null
-          }
-        </ParallaxScrollView>
+        {content}
         <Footer navigation={this.props.navigation} />
       </View>
     )
