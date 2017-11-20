@@ -1,7 +1,7 @@
 ﻿# 基于React-native开发的聚合阅读APP
 
 ## 截图
-<img src="https://o818xvhxo.qnssl.com/app-gif.gif" width="320" hspace="20" /> <img src="https://o818xvhxo.qnssl.com/app-1.png" width="320" hspace="20" /> <img src="https://o818xvhxo.qnssl.com/app-2.png" width="320" hspace="20" /> <img src="https://o818xvhxo.qnssl.com/app-3.png" width="320" hspace="20" /> <img src="https://o818xvhxo.qnssl.com/app-4.png" width="320" hspace="20" /> <img src="https://o818xvhxo.qnssl.com/app-5.png" width="320" hspace="20" />
+<img src="https://o818xvhxo.qnssl.com/app-6.png" width="320" hspace="20" />
 
 ## 项目版本
 `"react": "16.0.0"`  
