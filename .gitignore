@@ -53,3 +53,5 @@ buck-out/
 */fastlane/screenshots
 
 src/assets/images/theme.psd
+src/assets/images/icon.psd
+release_ios
