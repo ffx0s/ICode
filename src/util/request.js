@@ -21,7 +21,7 @@ export class Request {
   /**
    * 封装 fetch 方法
    * @param {String} url 接口 URL
-   * @param {Object} options 发送选项 
+   * @param {Object} options 发送选项
    */
   fetch (url, options) {
     return window.fetch(url, options).then(this.response).catch(this.catch)
