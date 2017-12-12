@@ -20,7 +20,7 @@ const MenuButton = props => {
       }}
       style={styles.menuButton}
     >
-      <Icon name="ios-arrow-down" size={px2dp(30)} color="white" />
+      <Icon name="md-menu" size={px2dp(30)} color="white" />
     </TouchableOpacity>
   )
 }

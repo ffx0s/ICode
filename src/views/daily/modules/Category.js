@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import {
-  StyleSheet, Animated, View, ScrollView, Text, Image,
+  StyleSheet, View, ScrollView, Text, Image, Modal,
   DeviceEventEmitter, TouchableOpacity
 } from 'react-native'
-import { deviceH, deviceW, sleep } from '../../../util'
+import Icon from 'react-native-vector-icons/Ionicons'
+import { deviceW, px2dp } from '../../../util'
 import zhihu from '../../../api/zhihu'
 
 const CategoryItem = props => {
@@ -27,10 +28,9 @@ export default class Category extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      items: []
+      items: [],
+      show: false
     }
-    this.duration = 400
-    this._animate = new Animated.Value(0)
   }
 
   async componentDidMount () {
@@ -44,32 +44,17 @@ export default class Category extends Component {
   }
 
   toggle () {
-    Animated.timing(this._animate, { toValue: ~~!this._animate._value, duration: this.duration }).start()
+    this.setState({ show: !this.state.show })
   }
 
   async itemClick (category) {
-    this.toggle()
-    await sleep(this.duration)
     this.props.onClick(category)
+    this.toggle()
   }
 
   render () {
     return (
-      <Animated.View style={[styles.container, {
-        opacity: this._animate,
-        zIndex: this._animate.interpolate({
-          inputRange: [0, 0.1],
-          outputRange: [-1, 1],
-          extrapolate: 'clamp'
-        }),
-        transform: [{
-          translateY: this._animate.interpolate({
-            inputRange: [0, 1],
-            outputRange: [-25, 0],
-            extrapolate: 'clamp'
-          })
-        }]
-      }]}>
+      <Modal visible={this.state.show} transparent={false} animationType="slide">
         <ScrollView>
           <View style={styles.list}>
             <CategoryItem
@@ -89,19 +74,15 @@ export default class Category extends Component {
             }
           </View>
         </ScrollView>
-      </Animated.View>
+        <View style={styles.footer}>
+          <Icon onPress={this.toggle.bind(this)} name="md-close" size={px2dp(35)} />
+        </View>
+      </Modal>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    zIndex: 1,
-    backgroundColor: 'white'
-  },
   list: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -128,5 +109,10 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.9
+  },
+  footer: {
+    paddingVertical: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
