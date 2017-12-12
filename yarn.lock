@@ -3404,6 +3404,10 @@ npmlog@^4.0.2:
     gauge "~2.7.3"
     set-blocking "~2.0.0"
 
+nt-transmit-transparently@^1.0.7:
+  version "1.0.7"
+  resolved "http://registry.npm.taobao.org/nt-transmit-transparently/download/nt-transmit-transparently-1.0.7.tgz#345cf3ffda06ba1bd629935bafac9e7820385076"
+
 number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
@@ -3805,6 +3809,17 @@ react-native-htmlview@^0.12.0:
   dependencies:
     entities "^1.1.1"
     htmlparser2-without-node-native "^3.9.2"
+
+react-native-image-pan-zoom@^2.0.9:
+  version "2.0.9"
+  resolved "http://registry.npm.taobao.org/react-native-image-pan-zoom/download/react-native-image-pan-zoom-2.0.9.tgz#0d933800c986164cefd5221550cedbfda596b916"
+
+react-native-image-zoom-viewer@^2.0.16:
+  version "2.0.16"
+  resolved "http://registry.npm.taobao.org/react-native-image-zoom-viewer/download/react-native-image-zoom-viewer-2.0.16.tgz#7b9a8a56aaeb54b339bde398ce286a839c5ddceb"
+  dependencies:
+    nt-transmit-transparently "^1.0.7"
+    react-native-image-pan-zoom "^2.0.9"
 
 react-native-linear-gradient@^2.3.0:
   version "2.3.0"

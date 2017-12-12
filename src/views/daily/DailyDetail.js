@@ -3,19 +3,37 @@
  */
 
 import React, { Component } from 'react'
-import { Image, StyleSheet, Text, View, Animated } from 'react-native'
+import {
+  Image, StyleSheet, Text, View, Animated, Modal, TouchableHighlight,
+  DeviceEventEmitter
+} from 'react-native'
 import HTMLView from 'react-native-htmlview'
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
 import LinearGradient from 'react-native-linear-gradient'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { baseNavigationOptions, deviceW, htmlViewStyles, px2dp, placeholderImage } from '../../util'
+import ImageViewer from 'react-native-image-zoom-viewer'
+import { baseNavigationOptions, deviceW, htmlViewStyles, px2dp, placeholderImage, sleep } from '../../util'
 import { WebViewComponent } from '../../components'
 import zhihu from '../../api/zhihu'
+
+let images = []
 
 function renderNode (node, index, siblings, parent, defaultRenderer) {
   if (node.name === 'img') {
     const a = node.attribs
-    return (<Image resizeMode="contain" key={index} style={{width: deviceW, height: 200}} source={{uri: a.src}} />)
+    const style = {width: deviceW, height: 200}
+    const imageIndex = images.length
+    images.push({ url: a.src })
+    return (
+      <TouchableHighlight
+        underlayColor="transparent"
+        activeOpacity={1} key={index}
+        style={style}
+        onPress={() => { DeviceEventEmitter.emit('showImageViewer', { show: true, index: imageIndex }) }}
+      >
+        <Image resizeMode="contain" style={style} source={{uri: a.src}} />
+      </TouchableHighlight>
+    )
   }
 }
 
@@ -48,9 +66,13 @@ export default class DailyDetail extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: {}
+      data: {},
+      imageViewer: { show: false, index: 0 }
     }
     this._fadeAnim = new Animated.Value(0)
+    this.subscription = DeviceEventEmitter.addListener('showImageViewer', imageViewer => {
+      this.setState({ imageViewer })
+    })
   }
 
   check () {
@@ -61,11 +83,15 @@ export default class DailyDetail extends Component {
 
   async componentDidMount () {
     let id = this.props.id || this.props.navigation.state.params.id
-    const data = await zhihu.getNews(id)
-    this.setState({
-      data: data || {}
-    })
-    Animated.timing(this._fadeAnim, { toValue: 1, duration: 200 }).start()
+    const data = await zhihu.getNews(id) || {}
+    this.setState({ data })
+    await sleep(100)
+    Animated.timing(this._fadeAnim, { toValue: 1, duration: 300 }).start()
+  }
+
+  componentWillUnmount () {
+    images = []
+    this.subscription.remove()
   }
 
   render () {
@@ -121,6 +147,9 @@ export default class DailyDetail extends Component {
                 stylesheet={htmlViewStyles}
                 onLinkPress={uri => this.props.navigation.navigate('WebView', { uri })}
               />
+              <Modal visible={this.state.imageViewer.show} transparent={true} animationType="fade">
+                <ImageViewer imageUrls={images} index={this.state.imageViewer.index} onCancel={() => { DeviceEventEmitter.emit('showImageViewer', { show: false }) }} />
+              </Modal>
             </View>
           ) : null
         }
@@ -143,7 +172,8 @@ const PARALLAX_HEADER_HEIGHT = 260
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: 'white'
   },
   stickySection: {
     height: HEADER_HEIGHT,
