@@ -110,6 +110,9 @@ export const htmlViewStyles = {
   },
   h1: {
     fontSize: TITLE_FONT_SIZE
+  },
+  h2: {
+    fontSize: TITLE_FONT_SIZE
   }
 }
 

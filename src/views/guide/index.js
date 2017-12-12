@@ -22,10 +22,7 @@ export default class Guide extends Component {
 
   constructor (props) {
     super(props)
-    this.state = {
-      scale: 1,
-      opacity: 1
-    }
+    this.state = {}
     this._fadeAnim = new Animated.Value(1)
     this._fadeAnim.addListener(this.redirect.bind(this))
   }

@@ -30,7 +30,7 @@ export default class Category extends Component {
       items: []
     }
     this.duration = 400
-    this._animate = new Animated.Value(false)
+    this._animate = new Animated.Value(0)
   }
 
   async componentDidMount () {
@@ -44,7 +44,7 @@ export default class Category extends Component {
   }
 
   toggle () {
-    Animated.timing(this._animate, { toValue: !this._animate._value, duration: this.duration }).start()
+    Animated.timing(this._animate, { toValue: ~~!this._animate._value, duration: this.duration }).start()
   }
 
   async itemClick (category) {
@@ -56,10 +56,16 @@ export default class Category extends Component {
   render () {
     return (
       <Animated.View style={[styles.container, {
+        opacity: this._animate,
+        zIndex: this._animate.interpolate({
+          inputRange: [0, 0.1],
+          outputRange: [-1, 1],
+          extrapolate: 'clamp'
+        }),
         transform: [{
           translateY: this._animate.interpolate({
-            inputRange: [false, true],
-            outputRange: [-deviceH, 0],
+            inputRange: [0, 1],
+            outputRange: [-25, 0],
             extrapolate: 'clamp'
           })
         }]
@@ -91,9 +97,6 @@ export default class Category extends Component {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    transform: [{
-      translateY: -deviceH
-    }],
     width: '100%',
     height: '100%',
     zIndex: 1,

@@ -3,7 +3,7 @@
  */
 
 import React, { Component } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View, Animated } from 'react-native'
 import HTMLView from 'react-native-htmlview'
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
 import LinearGradient from 'react-native-linear-gradient'
@@ -50,6 +50,13 @@ export default class DailyDetail extends Component {
     this.state = {
       data: {}
     }
+    this._fadeAnim = new Animated.Value(0)
+  }
+
+  check () {
+    const data = this.state.data
+    if (data.external_url) return data.external_url
+    return data.body.split('class=\"question\"').length > 2 ? data.share_url : ''
   }
 
   async componentDidMount () {
@@ -58,11 +65,13 @@ export default class DailyDetail extends Component {
     this.setState({
       data: data || {}
     })
+    Animated.timing(this._fadeAnim, { toValue: 1, duration: 200 }).start()
   }
 
   render () {
-    const externalUrl = this.state.data.external_url
-    const content = externalUrl ? <WebViewComponent uri={externalUrl} /> : (
+    if (!this.state.data.body) return null
+    const url = this.check()
+    const content = url ? <WebViewComponent uri={url} /> : (
       <ParallaxScrollView
         contentBackgroundColor="white"
         headerBackgroundColor={this.props.screenProps.theme.color}
@@ -118,16 +127,19 @@ export default class DailyDetail extends Component {
       </ParallaxScrollView>
     )
     return (
-      <View style={styles.container}>
+      <Animated.View style={[
+        styles.container,
+        {opacity: this._fadeAnim}
+      ]}>
         {content}
         <Footer navigation={this.props.navigation} />
-      </View>
+      </Animated.View>
     )
   }
 }
 
 const HEADER_HEIGHT = 20
-const PARALLAX_HEADER_HEIGHT = 220
+const PARALLAX_HEADER_HEIGHT = 260
 
 const styles = StyleSheet.create({
   container: {
@@ -163,7 +175,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   footer: {
-    paddingHorizontal: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -177,6 +188,8 @@ const styles = StyleSheet.create({
     shadowRadius: 2
   },
   footerItem: {
-    color: '#bbb'
+    flex: 1,
+    color: '#bbb',
+    textAlign: 'center'
   }
 })
