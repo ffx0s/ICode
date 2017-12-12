@@ -3831,9 +3831,9 @@ react-native-root-toast@^2.1.0:
     prop-types "^15.5.10"
     react-native-root-siblings "^2.2.0"
 
-react-native-scrollable-tab-view@^0.8.0:
+"react-native-scrollable-tab-view@https://github.com/ffx0s/react-native-scrollable-tab-view.git":
   version "0.8.0"
-  resolved "https://registry.yarnpkg.com/react-native-scrollable-tab-view/-/react-native-scrollable-tab-view-0.8.0.tgz#5cb1fcfce07bf530a3c81ab51fc5071144edac5c"
+  resolved "https://github.com/ffx0s/react-native-scrollable-tab-view.git#1ef19532399ef8a09b6273af415b5b9a7c88e99f"
   dependencies:
     create-react-class "^15.6.2"
     prop-types "^15.6.0"
