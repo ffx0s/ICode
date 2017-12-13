@@ -3854,9 +3854,16 @@ react-native-root-toast@^2.1.0:
     prop-types "^15.6.0"
     react-timer-mixin "^0.13.3"
 
+react-native-simple-markdown@^1.0.60-rc.3:
+  version "1.0.60-rc.3"
+  resolved "http://registry.npm.taobao.org/react-native-simple-markdown/download/react-native-simple-markdown-1.0.60-rc.3.tgz#80c772b22eb32fb43b9f23620f6c876aef06d721"
+  dependencies:
+    lodash "^4.15.0"
+    simple-markdown "git://github.com/CharlesMangwa/simple-markdown.git"
+
 "react-native-simple-markdown@https://github.com/ffx0s/react-native-simple-markdown.git":
   version "1.0.60"
-  resolved "https://github.com/ffx0s/react-native-simple-markdown.git#768c4195eade70463a1c6588313e594302500bc1"
+  resolved "https://github.com/ffx0s/react-native-simple-markdown.git#607954eea127153dad7bf40970fc6c10748bde6c"
   dependencies:
     lodash "^4.15.0"
     simple-markdown "git://github.com/CharlesMangwa/simple-markdown.git"

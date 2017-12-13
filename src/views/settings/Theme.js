@@ -23,7 +23,7 @@ export default class Settings extends Component {
         <Button
           title="使用"
           color="white"
-          onPress={() => { DeviceEventEmitter.emit('saveThemeAction') }}
+          onPress={() => { DeviceEventEmitter.emit('save') }}
         />
       )
     })
@@ -37,7 +37,7 @@ export default class Settings extends Component {
   }
 
   componentDidMount () {
-    this.subscription = DeviceEventEmitter.addListener('saveThemeAction', this.save.bind(this))
+    this.subscription = DeviceEventEmitter.addListener('save', this.save.bind(this))
   }
 
   componentWillUnmount () {
@@ -51,7 +51,7 @@ export default class Settings extends Component {
   async save () {
     Toast.show('更换成功', { position: 0 })
     await service.saveTheme(this.state.theme)
-    DeviceEventEmitter.emit('chnageTheme', this.state.theme)
+    DeviceEventEmitter.emit('CHANGE_THEME', this.state.theme)
     this.props.navigation.goBack()
   }
 

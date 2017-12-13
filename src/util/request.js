@@ -51,6 +51,7 @@ export class Request {
    */
   post (url, data = {}, options = {}) {
     let postOptions = {
+      method: 'post',
       headers: {
         'Accept': 'text/plain; charset=utf-8',
         'Content-type': this.emulateJSON ? 'application/json' : 'application/x-www-form-urlencoded; charset=UTF-8'

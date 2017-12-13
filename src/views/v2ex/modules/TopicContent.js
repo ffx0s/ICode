@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
 import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableHighlight
+  StyleSheet, View, Text, Image, TouchableHighlight, DeviceEventEmitter
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Markdown from 'react-native-simple-markdown'
@@ -15,9 +11,12 @@ import { dateFrom, markdownStyles, px2dp } from '../../../util'
  */
 
 export default class Content extends Component {
+  shouldComponentUpdate (nextProps, nextState) {
+    return false
+  }
+
   render () {
     let data = this.props.data
-
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -46,7 +45,27 @@ export default class Content extends Component {
           </View>
         </View>
         <View style={styles.content}>
-          <Markdown styles={markdownStyles}>
+          <Markdown
+            styles={markdownStyles}
+            rules={{
+              image: {
+                react: (node, output, state) => (
+                  <TouchableHighlight
+                    key={state.key}
+                    onPress={() => { DeviceEventEmitter.emit('SHOW_IMAGE_VIEWER', { images: [{ url: node.target }], show: true, index: 0 }) }}
+                    underlayColor="transparent"
+                    activeOpacity={1}
+                    style={markdownStyles.image}
+                  >
+                    <Image
+                      source={{ uri: node.target }}
+                      style={markdownStyles.image}
+                    />
+                  </TouchableHighlight>
+                )
+              }
+            }}
+          >
             {data.content}
           </Markdown>
         </View>

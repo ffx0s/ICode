@@ -49,7 +49,7 @@ export default class Guide extends Component {
   async initApp () {
     // 读取本地主题并进行切换
     let theme = await service.getCurrentTheme()
-    DeviceEventEmitter.emit('chnageTheme', theme)
+    DeviceEventEmitter.emit('CHANGE_THEME', theme)
     await sleep(1000)
     Animated.timing(this._fadeAnim, { toValue: 0, duration: 500 }).start()
   }
