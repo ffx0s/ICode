@@ -214,7 +214,7 @@
         "id": 413666,
         "title": "新写了一个基于 RQ 的延迟队列",
         "url": "http://www.v2ex.com/t/413666",
-        "content": "如果要使用简单的[RQ]( https://github.com/nvie/rq)库，又想有延迟时间执行的功能，可以试用下我写的这个 delay-rq。\r\n\r\n基本思想是使用 Redis 的有序集合存放需要延迟的任务，另外用 Timer 轮询有序集合。\r\n\r\n实现的细节写在这篇博客： [实现一个基于 rq 的延迟队列]( http://neven.me/python/2017/12/10/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%9F%BA%E4%BA%8ERQ%E7%9A%84%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97/)\r\n\r\nGiuhub 地址： https://github.com/cocoakekeyu/delay-rq",
+        "content": "如果要使用简单的[RQ]( http://www.v2ex.com/t/123)库，又想有延迟时间执行的功能，可以试用下我写的这个 delay-rq。\r\n\r\n基本思想是使用 Redis 的有序集合存放需要延迟的任务，另外用 Timer 轮询有序集合。\r\n\r\n实现的细节写在这篇博客： [实现一个基于 rq 的延迟队列]( http://neven.me/python/2017/12/10/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%9F%BA%E4%BA%8ERQ%E7%9A%84%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97/)\r\n\r\nGiuhub 地址： http://www.v2ex.com/t/123",
         "content_rendered": "<p>如果要使用简单的<a href=\"https://github.com/nvie/rq\" rel=\"nofollow\">RQ</a>库，又想有延迟时间执行的功能，可以试用下我写的这个 delay-rq。</p>\n<p>基本思想是使用 Redis 的有序集合存放需要延迟的任务，另外用 Timer 轮询有序集合。</p>\n<p>实现的细节写在这篇博客： <a href=\"http://neven.me/python/2017/12/10/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%9F%BA%E4%BA%8ERQ%E7%9A%84%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97/\" rel=\"nofollow\">实现一个基于 rq 的延迟队列</a></p>\n<p>Giuhub 地址： <a href=\"https://github.com/cocoakekeyu/delay-rq\" rel=\"nofollow\">https://github.com/cocoakekeyu/delay-rq</a></p>\n",
         "replies": 0,
         "member": {
