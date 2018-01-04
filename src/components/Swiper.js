@@ -5,11 +5,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { View, Image, Text, TouchableOpacity } from 'react-native'
-import { deviceW } from '../util'
+import { deviceW, loadingImage } from '../util'
 import SwiperComponent from 'react-native-swiper'
 import LinearGradient from 'react-native-linear-gradient'
 
-const loading = require('../assets/images/loading.gif')
 const styles = {
   wrapper: {
   },
@@ -87,7 +86,7 @@ const Item = props => {
       {
         !props.loaded && (
           <View style={styles.loadingView}>
-            <Image style={styles.loadingImage} source={loading} />
+            <Image style={styles.loadingImage} source={loadingImage} />
           </View>
         )
       }

@@ -14,6 +14,11 @@ export const { width: deviceW, height: deviceH } = Dimensions.get('window')
  */
 export const placeholderImage = require('../assets/images/placeholder-image.png')
 
+/**
+ * loading image
+ */
+export const loadingImage = require('../assets/images/loading.gif')
+
 export function px2dp (px) {
   const basePx = 375
   return px * deviceW / basePx

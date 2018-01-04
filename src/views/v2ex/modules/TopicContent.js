@@ -1,10 +1,23 @@
-import React, { Component } from 'react'
+import React, { Component, createElement } from 'react'
 import {
   StyleSheet, View, Text, Image, TouchableHighlight, DeviceEventEmitter
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Markdown from 'react-native-simple-markdown'
 import { dateFrom, markdownStyles, px2dp } from '../../../util'
+import _URL from 'url-parse'
+
+function isV2Url (url) {
+  const { pathname } = new _URL(url)
+  const arr = pathname.split('/')
+  return url.indexOf('v2ex.com/t/') !== -1 ? arr[arr.length - 1] : false
+}
+
+function navigate (uri) {
+  const id = isV2Url(uri)
+  const params = id ? ['TopicDetail', { id }] : ['WebView', { uri }]
+  DeviceEventEmitter.emit('NAVIGATE', ...params)
+}
 
 /**
  * 主题内容
@@ -63,6 +76,14 @@ export default class Content extends Component {
                     />
                   </TouchableHighlight>
                 )
+              },
+              link: {
+                react: (node, output, state) => {
+                  return createElement(Text, {
+                    key: state.key,
+                    onPress: () => navigate(node.target)
+                  }, output(node.content, state))
+                }
               }
             }}
           >

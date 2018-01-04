@@ -11,8 +11,11 @@ import HTMLView from 'react-native-htmlview'
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
 import LinearGradient from 'react-native-linear-gradient'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { baseNavigationOptions, deviceW, htmlViewStyles, px2dp, placeholderImage, sleep } from '../../util'
-import { WebViewComponent } from '../../components'
+import {
+  baseNavigationOptions, deviceW, htmlViewStyles, px2dp,
+  placeholderImage, sleep
+} from '../../util'
+import { WebViewComponent, Spinner } from '../../components'
 import zhihu from '../../api/zhihu'
 
 let images = []
@@ -87,7 +90,7 @@ export default class DailyDetail extends Component {
   }
 
   render () {
-    if (!this.state.data.body) return null
+    if (!this.state.data.body) return <Spinner delay={500} />
     const url = this.check()
     const content = url ? <WebViewComponent uri={url} /> : (
       <ParallaxScrollView
@@ -129,19 +132,15 @@ export default class DailyDetail extends Component {
           <View key="sticky-header" style={styles.stickySection}></View>
         }
       >
-        {
-          this.state.data.body ? (
-            <View style={styles.bodyContent}>
-              <HTMLView
-                renderNode={renderNode}
-                value={getContent(this.state.data.body)}
-                addLineBreaks={false}
-                stylesheet={htmlViewStyles}
-                onLinkPress={uri => this.props.navigation.navigate('WebView', { uri })}
-              />
-            </View>
-          ) : null
-        }
+        <View style={styles.bodyContent}>
+          <HTMLView
+            renderNode={renderNode}
+            value={getContent(this.state.data.body)}
+            addLineBreaks={false}
+            stylesheet={htmlViewStyles}
+            onLinkPress={uri => this.props.navigation.navigate('WebView', { uri })}
+          />
+        </View>
       </ParallaxScrollView>
     )
     return (
