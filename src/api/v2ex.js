@@ -2,8 +2,9 @@
  * v2ex 相关接口
  */
 
-import { Request, sleep } from '../util'
+import { Request } from '../util'
 
+const apiDomain = global.__DEV__ ? 'http://127.0.0.1:3000/mock/11' : 'https://www.v2ex.com'
 const request = new Request()
 
 // 统一处理 http 响应状态
@@ -16,52 +17,38 @@ request.response = response => {
   }
 }
 
-if (global.__DEV__) {
-  const mockData = {
-    'v2ex_comment.json': require('../data/v2ex_comment.json'),
-    'v2ex_topic.json': require('../data/v2ex_topic.json'),
-    'v2ex_topics.json': require('../data/v2ex_topics.json')
-  }
-  request.get = function (url, fileName) {
-    return new Promise(async (resolve, reject) => {
-      await sleep(200)
-      resolve(mockData[fileName])
-    })
-  }
-}
-
 export default {
   /**
    * 获取最新主题
    */
   getLastest () {
-    return request.get('https://www.v2ex.com/api/topics/latest.json', 'v2ex_topics.json')
+    return request.get(`${apiDomain}/api/topics/latest.json`)
   },
   /**
    * 获取最热主题
    */
   getHot () {
-    return request.get('https://www.v2ex.com/api/topics/hot.json', 'v2ex_topics.json')
+    return request.get(`${apiDomain}/api/topics/hot.json`)
   },
   /**
    * 获取主题详情
    * @param {Number} id 主题id
    */
   getDetail (id) {
-    return request.get(`https://www.v2ex.com/api/topics/show.json?id=${id}`, 'v2ex_topic.json')
+    return request.get(`${apiDomain}/api/topics/show.json?id=${id}`)
   },
   /**
    * 获取指定节点的主题
    * @param {String} node 节点
    */
   getNodeTopic (node) {
-    return request.get(`https://www.v2ex.com/api/topics/show.json?node_name=${node}`, 'v2ex_topics.json')
+    return request.get(`${apiDomain}/api/topics/show.json?node_name=${node}`)
   },
   /**
    * 获取主题评论
    * @param {Number} id 主题id
    */
   getComment (id) {
-    return request.get(`https://www.v2ex.com/api/replies/show.json?topic_id=${id}`, 'v2ex_comment.json')
+    return request.get(`${apiDomain}/api/replies/show.json?topic_id=${id}`)
   }
 }
