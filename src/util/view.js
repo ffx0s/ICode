@@ -19,18 +19,21 @@ export const placeholderImage = require('../assets/images/placeholder-image.png'
  */
 export const loadingImage = require('../assets/images/loading.gif')
 
-export function px2dp (px) {
-  const basePx = 375
-  return px * deviceW / basePx
+// 路由与图标的映射
+let iconsMap = {
+  'Daily': 'ios-paper',
+  'V2ex': 'logo-vimeo',
+  'Github': 'logo-github',
+  'Settings': 'md-settings'
 }
 
 /**
  * 视图通用 navigation options
  */
-export function baseNavigationOptions ({ navigation, screenProps }, options = {}) {
-  return Object.assign({
+export function baseNavigationOptions ({ navigation, screenProps }) {
+  return {
     title: navigation.state.routeName,
-    tabBarIcon: ({ tintColor, focused }) => icon(navigation.state.routeName, screenProps.theme.color, focused),
+    tabBarIcon: ({ tintColor, focused }) => <Icon name={iconsMap[navigation.state.routeName]} size={22} color={focused ? screenProps.theme.color : '#666'}/>,
     headerTitleStyle: {
       color: 'white'
     },
@@ -43,7 +46,7 @@ export function baseNavigationOptions ({ navigation, screenProps }, options = {}
     },
     headerLeft: null,
     headerRight: null
-  }, options)
+  }
 }
 
 /**
@@ -119,23 +122,4 @@ export const htmlViewStyles = {
   h2: {
     fontSize: TITLE_FONT_SIZE
   }
-}
-
-// 路由与图标的映射
-let iconsMap = {
-  'Daily': 'ios-paper',
-  'V2ex': 'logo-vimeo',
-  'Github': 'logo-github',
-  'Settings': 'md-settings'
-}
-
-/**
- * 获取底部 TAB 图标
- * @param {路由} routeName
- * @param {主题颜色} themeColor
- * @param {是否选中} focused
- */
-
-function icon (routeName, themeColor, focused) {
-  return <Icon name={iconsMap[routeName]} size={px2dp(25)} color={focused ? themeColor : '#666'}/>
 }

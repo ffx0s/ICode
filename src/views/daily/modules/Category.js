@@ -4,7 +4,7 @@ import {
   DeviceEventEmitter, TouchableOpacity
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { deviceW, px2dp } from '../../../util'
+import { deviceW } from '../../../util'
 import zhihu from '../../../api/zhihu'
 
 const CategoryItem = props => {
@@ -75,7 +75,7 @@ export default class Category extends Component {
           </View>
         </ScrollView>
         <View style={styles.footer}>
-          <Icon onPress={this.toggle.bind(this)} name="md-close" size={px2dp(35)} />
+          <Icon onPress={this.toggle.bind(this)} name="md-close" size={28} />
         </View>
       </Modal>
     )

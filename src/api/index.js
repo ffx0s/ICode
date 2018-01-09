@@ -11,7 +11,7 @@ export default {
    * 获取当前正在使用的主题
    */
   getCurrentTheme () {
-    return localStorage.get('theme').then(theme => {
+    return localStorage.get('APP_THEME').then(theme => {
       return theme !== null ? JSON.parse(theme) : DEFAULT_THEME
     })
   },
@@ -20,6 +20,6 @@ export default {
    * @param {主题} theme
    */
   saveTheme (theme) {
-    return localStorage.set('theme', JSON.stringify(theme))
+    return localStorage.set('APP_THEME', JSON.stringify(theme))
   }
 }

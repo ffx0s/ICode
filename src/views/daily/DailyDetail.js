@@ -12,7 +12,7 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view'
 import LinearGradient from 'react-native-linear-gradient'
 import Icon from 'react-native-vector-icons/Ionicons'
 import {
-  baseNavigationOptions, deviceW, htmlViewStyles, px2dp,
+  baseNavigationOptions, deviceW, htmlViewStyles,
   placeholderImage, sleep
 } from '../../util'
 import { WebViewComponent, Spinner } from '../../components'
@@ -50,19 +50,20 @@ function getContent (html) {
 const Footer = props => {
   return (
     <View style={styles.footer}>
-      <Icon name="ios-arrow-round-back-outline" style={styles.footerItem} size={px2dp(30)} onPress={() => { props.navigation.goBack() }} />
-      <Icon name="ios-arrow-round-up-outline" style={styles.footerItem} size={px2dp(30)} />
-      <Icon name="ios-share-outline" style={styles.footerItem} size={px2dp(25)} />
-      <Icon name="ios-text-outline" style={styles.footerItem} size={px2dp(25)} />
+      <Icon name="ios-arrow-round-back-outline" style={styles.footerItem} size={28} onPress={() => { props.navigation.goBack() }} />
+      <Icon name="ios-arrow-round-up-outline" style={styles.footerItem} size={28} />
+      <Icon name="ios-share-outline" style={styles.footerItem} size={22} />
+      <Icon name="ios-text-outline" style={styles.footerItem} size={22} />
     </View>
   )
 }
 
 export default class DailyDetail extends Component {
   static navigationOptions ({ navigation, screenProps }) {
-    return baseNavigationOptions({ navigation, screenProps }, {
+    return {
+      ...baseNavigationOptions({ navigation, screenProps }),
       header: null
-    })
+    }
   }
 
   constructor (props) {

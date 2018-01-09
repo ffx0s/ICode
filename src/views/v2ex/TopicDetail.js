@@ -21,10 +21,11 @@ export default class TopicDetail extends Component {
     }
   }
   static navigationOptions ({ navigation, screenProps }) {
-    return baseNavigationOptions({ navigation, screenProps }, {
+    return {
+      ...baseNavigationOptions({ navigation, screenProps }),
       title: '主题',
       headerLeft: <BackButton text="V2EX" navigation={navigation} />
-    })
+    }
   }
   async getData () {
     const data = await v2ex.getDetail(this.state.id)

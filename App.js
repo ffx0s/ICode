@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { View, Modal, DeviceEventEmitter } from 'react-native'
 import ImageViewer from 'react-native-image-zoom-viewer'
-import Orientation from 'react-native-orientation'
 import event from './event'
 import Routers from './src/routers'
 import { ErrorBoundary } from './src/components'
@@ -26,8 +25,7 @@ export default class App extends Component {
   }
 
   componentDidMount () {
-    event(this)
-    Orientation.lockToPortrait()
+    event(this).emit('LOCKTO', 'Portrait')
   }
 
   render () {

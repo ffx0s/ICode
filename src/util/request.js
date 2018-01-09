@@ -13,7 +13,11 @@ export class Request {
     this.response = response => response
     // 错误捕获函数
     this.catch = error => console.warn(error)
-
+    // 请求选项
+    this.options = {
+      credentials: 'include',
+      headers: {}
+    }
     Object.assign(this, props)
 
     return this
@@ -41,7 +45,8 @@ export class Request {
     if (!isEmptyObject(data)) {
       url += `?${serialize(data)}`
     }
-    return this.fetch(url, Object.assign(Request.getDefaultOptions(), options))
+    options.headers = { ...this.options.headers, ...options.headers }
+    return this.fetch(url, Object.assign({}, this.options, options))
   }
   /**
    * post 方法
@@ -58,15 +63,8 @@ export class Request {
       }
     }
     options.body = this.emulateJSON ? JSON.stringify(data) : serialize(data)
-
-    return this.fetch(url, Object.assign(Request.getDefaultOptions(), postOptions, options))
-  }
-  /**
-   * 获取请求的默认选项
-   */
-  static getDefaultOptions () {
-    return {
-      credentials: 'include'
-    }
+    options.headers = { ...postOptions.headers, ...this.options.headers, ...options.headers }
+    console.log(Object.assign({}, this.options, postOptions, options))
+    return this.fetch(url, Object.assign({}, this.options, postOptions, options))
   }
 }

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Markdown from 'react-native-simple-markdown'
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
-import { dateFrom, px2dp, markdownStyles } from '../../../util'
+import { dateFrom, markdownStyles } from '../../../util'
 
 export default class CommentItem extends Component {
   static PropTypes = {
@@ -41,7 +41,7 @@ export default class CommentItem extends Component {
                 {
                   item.thanks ? (
                     <View style={[styles.row, styles.alignCenter]}>
-                      <Icon name="md-heart" size={px2dp(15)} color="#ccc" />
+                      <Icon name="md-heart" size={14} color="#ccc" />
                       <Text style={styles.gray}> {item.thanks}</Text>
                     </View>
                   ) : null

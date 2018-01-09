@@ -10,9 +10,10 @@ import { Group, Cell, BackButton } from '../../components'
 
 export default class About extends Component {
   static navigationOptions ({ navigation, screenProps }) {
-    return baseNavigationOptions({ navigation, screenProps }, {
+    return {
+      ...baseNavigationOptions({ navigation, screenProps }),
       header: null
-    })
+    }
   }
 
   render () {

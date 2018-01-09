@@ -8,10 +8,11 @@ import { baseNavigationOptions } from '../../util'
 
 export default class WebView extends Component {
   static navigationOptions ({ navigation, screenProps }) {
-    return baseNavigationOptions({ navigation, screenProps }, {
+    return {
+      ...baseNavigationOptions({ navigation, screenProps }),
       title: navigation.state.params.title || '',
       headerLeft: <BackButton text="返回" navigation={navigation} />
-    })
+    }
   }
   render () {
     let uri = this.props.navigation.state.params.uri

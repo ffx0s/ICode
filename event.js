@@ -3,6 +3,12 @@
  */
 import { DeviceEventEmitter } from 'react-native'
 import { NavigationActions } from 'react-navigation'
+import Orientation from 'react-native-orientation'
+
+export function emit () {
+  DeviceEventEmitter.emit(...arguments)
+  return { emit }
+}
 
 export default function (App) {
   /**
@@ -24,4 +30,12 @@ export default function (App) {
     const navigateAction = NavigationActions.navigate({ routeName, params })
     App.refs.router.dispatch(navigateAction)
   })
+  /**
+   * 锁屏
+   */
+  DeviceEventEmitter.addListener('LOCKTO', direction => {
+    Orientation[`lockTo${direction}`] && Orientation[`lockTo${direction}`]()
+  })
+
+  return { emit }
 }

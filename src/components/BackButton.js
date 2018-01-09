@@ -10,7 +10,6 @@ import {
   TouchableOpacity
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { px2dp } from '../util'
 
 export class BackButton extends Component {
   goBack () {
@@ -21,7 +20,7 @@ export class BackButton extends Component {
     return (
       <TouchableOpacity onPress={this.goBack.bind(this)}>
         <View style={styles.container}>
-          <Icon style={styles.icon} name="ios-arrow-back" size={px2dp(30)} color="white" />
+          <Icon style={styles.icon} name="ios-arrow-back" size={28} color="white" />
           <Text style={styles.text}>{this.props.text}</Text>
         </View>
       </TouchableOpacity>

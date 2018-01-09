@@ -4,7 +4,7 @@ import {
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Markdown from 'react-native-simple-markdown'
-import { dateFrom, markdownStyles, px2dp } from '../../../util'
+import { dateFrom, markdownStyles } from '../../../util'
 import _URL from 'url-parse'
 
 function isV2Url (url) {
@@ -46,7 +46,7 @@ export default class Content extends Component {
               {/* 发布时间 */}
               <Text style={[styles.smallFont, { marginLeft: 10 }]}>{dateFrom(new Date(data.created * 1000))}</Text>
               {/* 回复数 */}
-              <Icon name="md-text" size={px2dp(20)} color="#ccc" style={{ marginLeft: 10, marginTop: 4 }} />
+              <Icon name="md-text" size={18} color="#ccc" style={{ marginLeft: 10, marginTop: 4 }} />
               <Text style={styles.smallFont}> {data.replies}</Text>
             </View>
             <View style={styles.row}>

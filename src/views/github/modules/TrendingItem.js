@@ -6,7 +6,6 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
 import HTMLView from 'react-native-htmlview'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { px2dp } from '../../../util'
 
 export default class TrendingItem extends Component {
   render () {
@@ -32,7 +31,7 @@ export default class TrendingItem extends Component {
               {
                 item.language ? (
                   <View style={styles.row}>
-                    <Icon name="ios-code" size={px2dp(18)} color="#ccc" style={{ marginTop: 3 }} />
+                    <Icon name="ios-code" size={16} color="#ccc" style={{ marginTop: 3 }} />
                     <Text style={[styles.gray, styles.smallFont]}> {item.language}   </Text>
                   </View>
                 ) : null
@@ -50,7 +49,7 @@ export default class TrendingItem extends Component {
               }
             </View>
             <View style={styles.row}>
-              <Icon name="md-star" size={px2dp(15)} color="#ccc" />
+              <Icon name="md-star" size={14} color="#ccc" />
               <Text style={[styles.gray, styles.smallFont]}> {item.starCount}</Text>
             </View>
           </View>

@@ -6,7 +6,7 @@ import React, { Component } from 'react'
 import { StyleSheet, View, TouchableOpacity, DeviceEventEmitter } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Swiper, ScrollList } from '../../components'
-import { baseNavigationOptions, px2dp } from '../../util'
+import { baseNavigationOptions } from '../../util'
 import zhihu from '../../api/zhihu'
 import Category from './modules/Category'
 import ThemeItem from './modules/ThemeItem'
@@ -20,7 +20,7 @@ const MenuButton = props => {
       }}
       style={styles.menuButton}
     >
-      <Icon name="md-menu" size={px2dp(30)} color="white" />
+      <Icon name="md-menu" size={28} color="white" />
     </TouchableOpacity>
   )
 }
@@ -28,10 +28,11 @@ const MenuButton = props => {
 export default class extends Component {
   static navigationOptions ({ navigation, screenProps }) {
     const { params = {} } = navigation.state
-    return baseNavigationOptions({ navigation, screenProps }, {
+    return {
+      ...baseNavigationOptions({ navigation, screenProps }),
       headerTitle: params.title || '今日热闻',
       headerRight: <MenuButton navigation={navigation} />
-    })
+    }
   }
 
   constructor (props) {

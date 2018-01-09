@@ -6,25 +6,26 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, View, Text, TouchableHighlight } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { px2dp } from '../util'
 
 export class Cell extends Component {
   static PropTypes = {
     title: PropTypes.string.isRequired,
     isLink: PropTypes.bool,
     rightComponent: PropTypes.element,
-    onPress: PropTypes.func
+    onPress: PropTypes.func,
+    style: PropTypes.object
   }
 
   static defaultProps = {
     // 是否显示右侧箭头
     isLink: true,
-    onPress: () => {}
+    onPress: () => {},
+    style: {}
   }
 
   renderCell () {
     return (
-      <View style={styles.cell}>
+      <View style={[styles.cell, this.props.style]}>
         <View>
           <Text style={styles.title}>{ this.props.title }</Text>
         </View>
@@ -33,7 +34,7 @@ export class Cell extends Component {
           {
             this.props.isLink ? (
               <View>
-                <Icon name="ios-arrow-forward" size={px2dp(24)} color="#ccc" style={{ marginLeft: 10 }} />
+                <Icon name="ios-arrow-forward" size={22} color="#ccc" style={{ marginLeft: 10, marginTop: 1 }} />
               </View>
             ) : null
           }

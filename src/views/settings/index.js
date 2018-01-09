@@ -3,8 +3,7 @@
  */
 
 import React, { Component } from 'react'
-import { StyleSheet, View, Switch } from 'react-native'
-import Orientation from 'react-native-orientation'
+import { StyleSheet, View, Switch, DeviceEventEmitter } from 'react-native'
 import { Group, Cell } from '../../components'
 import { baseNavigationOptions } from '../../util'
 
@@ -17,11 +16,7 @@ export default class Settings extends Component {
   static navigationOptions = baseNavigationOptions
 
   onValueChange (value) {
-    if (value) {
-      Orientation.lockToPortrait()
-    } else {
-      Orientation.lockToLandscape()
-    }
+    DeviceEventEmitter.emit('LOCKTO', value ? 'Portrait' : 'Landscape')
     this.setState({ enabled: value })
   }
 

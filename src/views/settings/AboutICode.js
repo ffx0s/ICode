@@ -9,10 +9,11 @@ import { baseNavigationOptions } from '../../util'
 
 export default class AboutICode extends Component {
   static navigationOptions ({ navigation, screenProps }) {
-    return baseNavigationOptions({ navigation, screenProps }, {
+    return {
+      ...baseNavigationOptions({ navigation, screenProps }),
       title: '关于',
       headerLeft: <BackButton text="设置" navigation={navigation} />
-    })
+    }
   }
 
   render () {

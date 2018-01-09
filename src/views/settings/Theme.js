@@ -9,14 +9,15 @@ import {
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Toast from 'react-native-root-toast'
-import { baseNavigationOptions, deviceW, deviceH, px2dp } from '../../util'
+import { baseNavigationOptions, deviceW, deviceH } from '../../util'
 import { BackButton } from '../../components'
 import themeData from '../../data/theme.json'
 import service from '../../api'
 
 export default class Settings extends Component {
   static navigationOptions ({ navigation, screenProps }) {
-    return baseNavigationOptions({ navigation, screenProps }, {
+    return {
+      ...baseNavigationOptions({ navigation, screenProps }),
       title: '更换主题',
       headerLeft: <BackButton text="取消" navigation={navigation} />,
       headerRight: (
@@ -26,7 +27,7 @@ export default class Settings extends Component {
           onPress={() => { DeviceEventEmitter.emit('save') }}
         />
       )
-    })
+    }
   }
 
   constructor (props) {
@@ -72,7 +73,7 @@ export default class Settings extends Component {
                 <TouchableHighlight underlayColor="transparent" key={theme.id} activeOpacity={1} onPress={() => { this.onSelectTheme(theme) }}>
                   <View style={[styles.item, {backgroundColor: theme.color}]}>
                     {
-                      theme.id === this.state.theme.id ? <Icon style={styles.selectIcon} name="ios-checkmark-outline" size={px2dp(35)} color="white" /> : null
+                      theme.id === this.state.theme.id ? <Icon style={styles.selectIcon} name="ios-checkmark-outline" size={40} color="white" /> : null
                     }
                   </View>
                 </TouchableHighlight>
