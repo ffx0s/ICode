@@ -9,6 +9,7 @@
 	},
 	"dependencies": {
 		"GitHubTrending": "^3.0.0",
+		"cheerio-without-node-native": "^0.20.2",
 		"prop-types": "^15.6.0",
 		"react": "16.0.0",
 		"react-native": "0.50.3",

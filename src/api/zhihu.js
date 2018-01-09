@@ -7,6 +7,11 @@ import { Request } from '../util'
 const apiDomain = global.__DEV__ ? 'http://127.0.0.1:3000/mock/11' : 'https://news-at.zhihu.com'
 const request = new Request()
 
+request.options.headers = {
+  'host': 'news-at.zhihu.com',
+  'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36'
+}
+
 // 统一处理 http 响应状态
 request.response = response => {
   if (response.status !== 200) {

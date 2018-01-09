@@ -3,21 +3,38 @@
  */
 
 import React, { Component } from 'react'
-import {
-  StyleSheet,
-  View
-} from 'react-native'
+import { StyleSheet, View, TouchableOpacity, Alert } from 'react-native'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 import { ScrollList } from '../../components'
 import { baseNavigationOptions, getScrollableTabViewProps } from '../../util'
 
 import TopicItem from './modules/TopicItem'
-import v2ex from '../../api/v2ex'
+import v2ex, { user } from '../../api/v2ex'
+
+const MenuButton = props => {
+  return (
+    <TouchableOpacity
+      activeOpacity={0.7}
+      onPress={() => {
+        if (user.waiting) return Alert.alert('', '正在获取用户数据，请稍等...')
+        props.navigation.navigate(user.get('name') ? 'Account' : 'Login')
+      }}
+      style={styles.menuButton}
+    >
+      <Icon name="md-person" size={26} color="white" />
+    </TouchableOpacity>
+  )
+}
 
 export default class TopicList extends Component {
-  static navigationOptions = baseNavigationOptions
-
+  static navigationOptions ({ navigation, screenProps }) {
+    return {
+      ...baseNavigationOptions({ navigation, screenProps }),
+      headerRight: <MenuButton navigation={navigation} />
+    }
+  }
   constructor (props) {
     super(props)
     this.state = {
@@ -93,5 +110,9 @@ export default class TopicList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  menuButton: {
+    marginRight: 10,
+    marginTop: 4
   }
 })

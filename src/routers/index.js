@@ -8,6 +8,8 @@ import Daily from '../views/daily'
 import DailyDetail from '../views/daily/DailyDetail'
 import TopicList from '../views/v2ex/TopicList'
 import TopicDetail from '../views/v2ex/TopicDetail'
+import Login from '../views/v2ex/Login'
+import Account from '../views/v2ex/Account'
 import TrendingList from '../views/github/TrendingList'
 import Settings from '../views/settings'
 import Theme from '../views/settings/Theme'
@@ -26,7 +28,7 @@ let tabNavigatorConfig = {
   tabBarComponent,
   tabBarPosition: 'bottom',
   swipeEnabled: false,
-  initialRouteName: 'Daily',
+  initialRouteName: 'V2ex',
   lazy: true // 懒加载 Tab
   // animationEnabled: true
 }
@@ -81,6 +83,14 @@ const Routers = StackNavigator({
   Guide: {
     screen: Guide,
     path: '/guide'
+  },
+  Login: {
+    screen: Login,
+    path: '/login'
+  },
+  Account: {
+    screen: Account,
+    path: '/account'
   }
 }, {
   initialRouteName: 'Guide'
