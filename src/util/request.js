@@ -64,7 +64,6 @@ export class Request {
     }
     options.body = this.emulateJSON ? JSON.stringify(data) : serialize(data)
     options.headers = { ...postOptions.headers, ...this.options.headers, ...options.headers }
-    console.log(Object.assign({}, this.options, postOptions, options))
     return this.fetch(url, Object.assign({}, this.options, postOptions, options))
   }
 }
