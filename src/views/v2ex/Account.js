@@ -3,15 +3,19 @@
  */
 
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, Alert, Image } from 'react-native'
+import { StyleSheet, View, Text, Alert, Image, Switch, ScrollView } from 'react-native'
+import Toast from 'react-native-root-toast'
 import { Group, Cell, BackButton } from '../../components'
-import { baseNavigationOptions } from '../../util'
-import { login, user } from '../../api/v2ex'
+import { baseNavigationOptions, localStorage } from '../../util'
+import { user } from '../../api/v2ex'
 
 export default class Account extends Component {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = { enabled: true }
+    localStorage.get('AUTO_CHECKIN').then(value => {
+      this.setState({ enabled: !value || value === 'true' })
+    })
   }
 
   static navigationOptions ({ navigation, screenProps }) {
@@ -22,8 +26,14 @@ export default class Account extends Component {
     }
   }
 
+  onValueChange (value) {
+    this.setState({ enabled: value })
+    localStorage.set('AUTO_CHECKIN', value.toString())
+  }
+
   async logout () {
-    const result = await login.logout()
+    Toast.show('等待响应...', { position: 0, delay: 500 })
+    const result = await user.logout()
     if (!result.error) {
       this.props.navigation.navigate('Login')
     } else {
@@ -33,7 +43,7 @@ export default class Account extends Component {
 
   render () {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Group>
           <Cell
             title="用户名"
@@ -46,7 +56,7 @@ export default class Account extends Component {
             title="头像"
             isLink={false}
             rightComponent={
-              <Image style={{ width: 25, height: 25 }} source={{ uri: user.get('avatar') }} />
+              <Image style={{ width: 25, height: 25, borderRadius: 4 }} source={{ uri: user.get('avatar') }} />
             }
           />
           <Cell
@@ -55,7 +65,7 @@ export default class Account extends Component {
             rightComponent={
               user.get('money')[0].map((value, index) => {
                 return (
-                  <View key={index} style={styles.money}>
+                  <View key={index} style={styles.row}>
                     <Text> {value} </Text>
                     <Image style={{ width: 15, height: 15 }} source={{ uri: user.get('money')[1][index] }} />
                   </View>
@@ -91,13 +101,18 @@ export default class Account extends Component {
               <Text style={styles.gray}>{user.get('once')}</Text>
             }
           />
-          {/* <Cell
-            title='启动APP时自动签到'
+        </Group>
+        <Group>
+          <Cell
+            title='自动签到'
             isLink={false}
-            rightComponent={
-              <Text style={styles.gray}></Text>
-            }
-          /> */}
+            rightComponent={(
+              <View style={styles.row}>
+                <Text style={styles.gray}>{user.get('hasCheckin') ? '已签到' : '未签到'}  </Text>
+                <Switch onValueChange={this.onValueChange.bind(this)} value={this.state.enabled} />
+              </View>
+            )}
+          />
         </Group>
         <Group>
           <Cell
@@ -115,20 +130,19 @@ export default class Account extends Component {
               )}
           />
         </Group>
-      </View>
+      </ScrollView>
     )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginTop: 15
+    flex: 1
   },
   gray: {
     color: '#bbb'
   },
-  money: {
+  row: {
     flexDirection: 'row',
     alignItems: 'center'
   }

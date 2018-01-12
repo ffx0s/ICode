@@ -39,6 +39,7 @@ export default class Login extends Component {
       this.props.navigation.navigate('V2ex')
     } else {
       Alert.alert('', result.error || result.problem)
+      this.setState({ loginData: result })
     }
 
     Toast.hide(toast)
