@@ -10,12 +10,11 @@ import {
 import HTMLView from 'react-native-htmlview'
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
 import LinearGradient from 'react-native-linear-gradient'
-import Icon from 'react-native-vector-icons/Ionicons'
 import {
   baseNavigationOptions, deviceW, htmlViewStyles,
   placeholderImage, sleep
 } from '../../util'
-import { WebViewComponent, Spinner } from '../../components'
+import { WebViewComponent, Spinner, BottomNav } from '../../components'
 import zhihu from '../../api/zhihu'
 
 let images = []
@@ -45,17 +44,6 @@ function getContent (html) {
   let endTag = '</div></div></div><script'
   let content = html.replace(/\n|\r/g, '')
   return content.slice(content.indexOf(startTag) + startTag.length, content.indexOf(endTag))
-}
-
-const Footer = props => {
-  return (
-    <View style={styles.footer}>
-      <Icon name="ios-arrow-round-back-outline" style={styles.footerItem} size={28} onPress={() => { props.navigation.goBack() }} />
-      <Icon name="ios-arrow-round-up-outline" style={styles.footerItem} size={28} />
-      <Icon name="ios-share-outline" style={styles.footerItem} size={22} />
-      <Icon name="ios-text-outline" style={styles.footerItem} size={22} />
-    </View>
-  )
 }
 
 export default class DailyDetail extends Component {
@@ -150,7 +138,12 @@ export default class DailyDetail extends Component {
         {opacity: this._fadeAnim}
       ]}>
         {content}
-        <Footer navigation={this.props.navigation} />
+        <BottomNav items={[
+          { name: 'ios-arrow-round-back-outline', size: 28, onPress: () => { this.props.navigation.goBack() } },
+          { name: 'ios-arrow-round-up-outline', size: 28 },
+          { name: 'ios-share-outline', size: 22 },
+          { name: 'ios-text-outline', size: 22 }
+        ]} />
       </Animated.View>
     )
   }
@@ -192,23 +185,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     backgroundColor: 'transparent'
-  },
-  footer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    height: 40,
-    borderTopWidth: 0.5,
-    borderTopColor: '#eee',
-    backgroundColor: 'white',
-    shadowOffset: {width: 0, height: 0},
-    shadowColor: 'black',
-    shadowOpacity: 0.1,
-    shadowRadius: 2
-  },
-  footerItem: {
-    flex: 1,
-    color: '#bbb',
-    textAlign: 'center'
   }
 })

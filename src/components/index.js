@@ -1,4 +1,5 @@
 export * from './BackButton'
+export * from './BottomNav'
 export * from './Cell'
 export * from './ErrorBoundary'
 export * from './Group'

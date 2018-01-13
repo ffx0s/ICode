@@ -13,6 +13,10 @@ const baseHeaders = {
   'origin': 'https://www.v2ex.com',
   'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36'
 }
+const basePostHeaders = {
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'Content-type': 'application/x-www-form-urlencoded'
+}
 const baseResponse = response => {
   if (response.url === 'https://www.v2ex.com/signin/cooldown') {
     Alert.alert('', '由于当前 IP 在短时间内的登录尝试次数太多，目前暂时不能继续尝试。')
@@ -43,6 +47,7 @@ class Parser {
   load (body) {
     this.body = body
     this.$ = cheerio.load(this.body)
+    return this
   }
   /**
    * 获取登录字段
@@ -135,13 +140,6 @@ class Login {
     this.request.response = baseResponse
     const apiDomain = 'https://www.v2ex.com'
     this.loginUrl = `${apiDomain}/signin`
-    this.postOptions = {
-      headers: {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Content-type': 'application/x-www-form-urlencoded',
-        'referer': `${apiDomain}/signin`
-      }
-    }
     this.data = {}
   }
   /**
@@ -175,7 +173,7 @@ class Login {
     }
     console.log('submit：', data)
     return this.request
-      .post(this.loginUrl, data, this.postOptions)
+      .post(this.loginUrl, data, { headers: { ...basePostHeaders, 'referer': `${apiDomain}/signin` } })
       .then(this.check.bind(this))
   }
   /**
@@ -278,6 +276,24 @@ class User {
         const result = { hasCheckin: parser.hasCheckin(), once: parser.getOnce() }
         this.set(result)
         return result
+      })
+  }
+  /**
+   * 发送评论
+   */
+  sendComment (id, content) {
+    const apiDomain = `https://www.v2ex.com`
+    const url = `${apiDomain}/t/${id}`
+    return this.request
+      .post(url, { content, once: this.data.once }, { ...basePostHeaders, headers: { referer: url } })
+      .then(async response => {
+        console.log(response)
+        if (response.url.split('#')[0] === url) {
+          const body = await response.text()
+          parser.load(body)
+          return { problem: parser.getProblem() }
+        }
+        return { error: '发送评论出错' }
       })
   }
 }
