@@ -1,7 +1,9 @@
 ﻿# 基于React-native开发的聚合阅读APP
 
 ## 截图
-<img src="./src/assets/images/app.png" width="320" hspace="20" />
+<img src="./src/assets/images/app-zhihu.png" width="320" hspace="20" />
+<br />
+<img src="./src/assets/images/app-v2ex.png" width="320" hspace="20" />
 
 ## 项目版本
 `"react": "16.0.0"`  
@@ -10,9 +12,10 @@
 
 ## 功能
 - [x] 知乎日报主题列表、主题详情 
-- [x] V2ex主题列表、主题详情 
+- [x] V2ex 主题列表、主题详情 
+- [x] V2ex 登录、回复主题、自动签到
 - [x] Github trending列表、仓库详情 
-- [x] APP主题更换
+- [x] 主题更换
 
 ## 运行
 
