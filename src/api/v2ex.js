@@ -18,6 +18,7 @@ const basePostHeaders = {
   'Content-type': 'application/x-www-form-urlencoded'
 }
 const baseResponse = response => {
+  console.log(response)
   if (response.url === 'https://www.v2ex.com/signin/cooldown') {
     Alert.alert('', '由于当前 IP 在短时间内的登录尝试次数太多，目前暂时不能继续尝试。')
   }
@@ -138,7 +139,6 @@ class Login {
     this.request = new Request()
     this.request.options.headers = baseHeaders
     this.request.response = baseResponse
-    const apiDomain = 'https://www.v2ex.com'
     this.loginUrl = `${apiDomain}/signin`
     this.data = {}
   }
@@ -181,7 +181,6 @@ class Login {
    * @param {Object} response 响应体
    */
   async check (response) {
-    console.log('login response:', response)
     const body = await response.text()
     parser.load(body)
     const problem = parser.getProblem()
@@ -231,11 +230,11 @@ class User {
     this.data = {}
   }
   getSettings () {
-    const apiDomain = 'https://www.v2ex.com'
+    // const apiDomain = 'https://www.v2ex.com'
     this.waiting = true
     return this.request
       .get(`${apiDomain}/settings`)
-      .then(response => { console.log(response); return response.text() })
+      .then(response => { return response.text() })
       .then(body => {
         parser.load(body)
         this.set(parser.getUserSettings())
@@ -247,11 +246,11 @@ class User {
    * 退出登录
    */
   logout () {
-    const apiDomain = 'https://www.v2ex.com'
+    // const apiDomain = 'https://www.v2ex.com'
     const referer = `${apiDomain}/signout?once=${this.data.once}`
     return this.request
       .get(referer, {}, { headers: { referer } })
-      .then(response => { console.log(response); return response.text() })
+      .then(response => response.text())
       .then(body => {
         parser.load(body)
         if (!parser.getLoginStatus().status) {
@@ -265,12 +264,12 @@ class User {
    * 签到
    */
   async checkin () {
-    const apiDomain = 'https://www.v2ex.com'
+    // const apiDomain = 'https://www.v2ex.com'
     const url = `${apiDomain}/mission/daily/redeem?once=${this.data.once}`
     const referer = `${apiDomain}/mission/daily`
     return this.request
       .get(url, {}, { headers: { referer } })
-      .then(response => { console.log(response); return response.text() })
+      .then(response => response.text())
       .then(body => {
         parser.load(body)
         const result = { hasCheckin: parser.hasCheckin(), once: parser.getOnce() }
@@ -282,12 +281,11 @@ class User {
    * 发送评论
    */
   sendComment (id, content) {
-    const apiDomain = `https://www.v2ex.com`
+    // const apiDomain = `https://www.v2ex.com`
     const url = `${apiDomain}/t/${id}`
     return this.request
       .post(url, { content, once: this.data.once }, { ...basePostHeaders, headers: { referer: url } })
       .then(async response => {
-        console.log(response)
         if (response.url.split('#')[0] === url) {
           const body = await response.text()
           parser.load(body)
