@@ -3,22 +3,21 @@
  */
 
 import React, { Component } from 'react'
-import { View, Modal, TextInput, Text, TouchableOpacity } from 'react-native'
+import { View, Modal, TextInput, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import PropTypes from 'prop-types'
 
 export default class CommentBox extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      show: false,
+      content: '',
       disable: true
     }
   }
 
   static PropTypes = {
-    show: PropTypes.bool.isRequired,
-    content: PropTypes.string.isRequired,
-    toggle: PropTypes.func.isRequired,
-    onChangeContent: PropTypes.func.isRequired,
+    onChangeContent: PropTypes.func,
     onSend: PropTypes.func
   }
 
@@ -27,44 +26,55 @@ export default class CommentBox extends Component {
   }
 
   updateText (content) {
-    this.props.onChangeContent(content)
-    this.setState({ disable: !content.trim() })
+    this.setState({ content, disable: !content.trim() })
+  }
+
+  reset () {
+    this.setState({ content: '', show: false, disable: true })
   }
 
   render () {
     return (
-      <Modal visible={this.props.show} transparent={true} animationType="fade">
-        <TouchableOpacity activeOpacity={1} onPress={() => { this.props.toggle(false) }} style={styles.wrap}>
-          <TouchableOpacity activeOpacity={1} style={styles.inner}>
-            <TextInput
-              placeholder="请尽量让自己的回复能够对别人有帮助"
-              defaultValue=""
-              value={this.props.content}
-              onChangeText={this.updateText.bind(this)}
-              style={styles.input}
-              placeholderTextColor="#ccc"
-              maxLength={10000}
-              multiline={true}
-              autoFocus={true}
-            />
-            <View style={styles.bottom}>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => { !this.state.disable && this.props.onSend(this.props.content) }}
-              >
-                <View style={[styles.button, this.state.disable ? {} : { borderColor: this.props.screenProps.theme.color }]}>
-                  <Text style={[styles.buttonText, this.state.disable ? {} : { color: this.props.screenProps.theme.color }]}>发送</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
+      <Modal visible={this.state.show} transparent={true} animationType="fade">
+        <KeyboardAvoidingView behavior="padding" style={styles.container}>
+          <TouchableOpacity activeOpacity={1} onPress={() => { this.setState({ show: false }) }} style={styles.wrap}>
+            <TouchableOpacity activeOpacity={1} style={styles.inner}>
+              <TextInput
+                placeholder="请尽量让自己的回复能够对别人有帮助"
+                defaultValue=""
+                value={this.state.content}
+                onChangeText={this.updateText.bind(this)}
+                style={styles.input}
+                placeholderTextColor="#ccc"
+                maxLength={10000}
+                multiline={true}
+                autoFocus={true}
+              />
+              <View style={styles.bottom}>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => { !this.state.disable && this.props.onSend(this.state.content) }}
+                >
+                  <View style={[styles.button, this.state.disable ? {} : { borderColor: this.props.screenProps.theme.color }]}>
+                    <Text style={[styles.buttonText, this.state.disable ? {} : { color: this.props.screenProps.theme.color }]}>发送</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
           </TouchableOpacity>
-        </TouchableOpacity>
+        </KeyboardAvoidingView>
       </Modal>
     )
   }
 }
 
 const styles = {
+  container: {
+    position: 'absolute',
+    flex: 1,
+    width: '100%',
+    height: '100%'
+  },
   wrap: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.4)'

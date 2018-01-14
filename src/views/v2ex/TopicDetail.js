@@ -17,9 +17,7 @@ export default class TopicDetail extends Component {
     super(props)
     this.state = {
       id: this.props.navigation.state.params.id,
-      data: Object.assign({}, this.props.navigation.state.params.data),
-      commentBoxShow: false,
-      commentContent: ''
+      data: Object.assign({}, this.props.navigation.state.params.data)
     }
     if (!this.state.data.url) {
       this.getData()
@@ -41,12 +39,9 @@ export default class TopicDetail extends Component {
     if (result.problem || result.error) {
       Alert.alert(result.problem || result.error)
     } else {
-      this.setState({ commentBoxShow: false, commentContent: '' })
-      Toast.show('已发送', { position: 0, delay: 300 })
+      this.refs.comment.reset()
+      Toast.show('已发送', { delay: 300 })
     }
-  }
-  onChangeContent (commentContent) {
-    this.setState({ commentContent })
   }
   render () {
     let data = this.state.data
@@ -61,15 +56,12 @@ export default class TopicDetail extends Component {
         <BottomNav items={[
           { name: 'ios-arrow-round-back-outline', onPress: () => { this.props.navigation.goBack() } },
           { name: 'ios-arrow-round-up-outline' },
-          { name: 'ios-create-outline', size: 24, onPress: () => { this.setState({ commentBoxShow: true }) } },
+          { name: 'ios-create-outline', size: 24, onPress: () => { this.refs.comment.setState({ show: true }) } },
           { name: 'ios-share-outline', size: 22 }
         ]} />
         <CommentBox
+          ref="comment"
           screenProps={this.props.screenProps}
-          show={this.state.commentBoxShow}
-          content={this.state.commentContent}
-          toggle={value => { this.setState({ commentBoxShow: !!value }) }}
-          onChangeContent={this.onChangeContent.bind(this)}
           onSend={this.onSend.bind(this)}
         />
       </View>
