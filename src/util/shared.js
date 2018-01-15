@@ -89,3 +89,10 @@ export const localStorage = {
     }
   }
 }
+
+/**
+ * 去除空格
+ */
+export function removeSpace (text) {
+  return text ? text.replace(/\s/g, '') : ''
+}
