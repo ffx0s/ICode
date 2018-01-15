@@ -2,14 +2,15 @@
  * 用户中心页
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import { StyleSheet, View, Text, Alert, Image, Switch, ScrollView } from 'react-native'
 import Toast from 'react-native-root-toast'
+import ViewClass from '../ViewClass'
 import { Group, Cell, BackButton } from '../../components'
-import { baseNavigationOptions, localStorage } from '../../util'
+import { localStorage } from '../../util'
 import { user } from '../../api/v2ex'
 
-export default class Account extends Component {
+export default class Account extends ViewClass {
   constructor (props) {
     super(props)
     this.state = { enabled: true }
@@ -20,7 +21,7 @@ export default class Account extends Component {
 
   static navigationOptions ({ navigation, screenProps }) {
     return {
-      ...baseNavigationOptions({ navigation, screenProps }),
+      ...ViewClass.navigationOptions({ navigation, screenProps }),
       title: '账户',
       headerLeft: <BackButton text="返回" navigation={navigation} />
     }

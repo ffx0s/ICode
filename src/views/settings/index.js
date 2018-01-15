@@ -2,18 +2,16 @@
  * 设置页
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import { StyleSheet, View, Switch, DeviceEventEmitter } from 'react-native'
 import { Group, Cell } from '../../components'
-import { baseNavigationOptions } from '../../util'
+import ViewClass from '../ViewClass'
 
-export default class Settings extends Component {
+export default class Settings extends ViewClass {
   constructor (props) {
     super(props)
     this.state = { enabled: true }
   }
-
-  static navigationOptions = baseNavigationOptions
 
   onValueChange (value) {
     DeviceEventEmitter.emit('LOCKTO', value ? 'Portrait' : 'Landscape')

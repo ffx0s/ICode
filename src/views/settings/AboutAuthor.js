@@ -1,19 +1,18 @@
 /*
- * 关于
+ * 关于作者
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
-import { baseNavigationOptions, deviceW } from '../../util'
+import ViewClass from '../ViewClass'
+import { deviceW } from '../../util'
 import { Group, Cell, BackButton } from '../../components'
 
-export default class About extends Component {
-  static navigationOptions ({ navigation, screenProps }) {
-    return {
-      ...baseNavigationOptions({ navigation, screenProps }),
-      header: null
-    }
+export default class About extends ViewClass {
+  static navigationOptions = {
+    header: null,
+    headerLeft: null
   }
 
   render () {

@@ -2,14 +2,14 @@
  * 通用 webview 页面
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import { WebViewComponent, BackButton } from '../../components'
-import { baseNavigationOptions } from '../../util'
+import ViewClass from '../ViewClass'
 
-export default class WebView extends Component {
+export default class WebView extends ViewClass {
   static navigationOptions ({ navigation, screenProps }) {
     return {
-      ...baseNavigationOptions({ navigation, screenProps }),
+      ...ViewClass.navigationOptions({ navigation, screenProps }),
       title: navigation.state.params.title || '',
       headerLeft: <BackButton text="返回" navigation={navigation} />
     }

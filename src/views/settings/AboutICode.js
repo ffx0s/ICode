@@ -2,15 +2,15 @@
  * 关于 ICode
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import { StyleSheet, View, Text, ScrollView } from 'react-native'
 import { Group, Cell, BackButton } from '../../components'
-import { baseNavigationOptions } from '../../util'
+import ViewClass from '../ViewClass'
 
-export default class AboutICode extends Component {
+export default class AboutICode extends ViewClass {
   static navigationOptions ({ navigation, screenProps }) {
     return {
-      ...baseNavigationOptions({ navigation, screenProps }),
+      ...ViewClass.navigationOptions({ navigation, screenProps }),
       title: '关于',
       headerLeft: <BackButton text="设置" navigation={navigation} />
     }

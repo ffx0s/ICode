@@ -2,16 +2,17 @@
  * 主题列表页
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import { StyleSheet, View, TouchableOpacity, Alert } from 'react-native'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import { ScrollList } from '../../components'
-import { baseNavigationOptions, getScrollableTabViewProps } from '../../util'
+import { getScrollableTabViewProps } from '../../util'
 
 import TopicItem from './modules/TopicItem'
 import v2ex, { user } from '../../api/v2ex'
+import ViewClass from '../ViewClass'
 
 const MenuButton = props => {
   return (
@@ -28,10 +29,10 @@ const MenuButton = props => {
   )
 }
 
-export default class TopicList extends Component {
+export default class TopicList extends ViewClass {
   static navigationOptions ({ navigation, screenProps }) {
     return {
-      ...baseNavigationOptions({ navigation, screenProps }),
+      ...ViewClass.navigationOptions({ navigation, screenProps }),
       headerRight: <MenuButton navigation={navigation} />
     }
   }
@@ -40,38 +41,28 @@ export default class TopicList extends Component {
     this.state = {
       tabs: [{
         name: '最新',
-        api: 'getLastest'
+        tab: 'all'
       }, {
         name: '热门',
-        api: 'getHot'
+        tab: 'hot'
       }, {
         name: '创意',
-        api: 'getNodeTopic',
-        params: ['create']
+        tab: 'creative'
       }, {
         name: '问与答',
-        api: 'getNodeTopic',
-        params: ['qna']
+        tab: 'qna'
       }, {
-        name: '设计',
-        api: 'getNodeTopic',
-        params: ['design']
+        name: '好玩',
+        tab: 'play'
       }, {
         name: '技术',
-        api: 'getNodeTopic',
-        params: ['tech']
-      }, {
-        name: '程序员',
-        api: 'getNodeTopic',
-        params: ['programmer']
+        tab: 'tech'
       }, {
         name: '酷工作',
-        api: 'getNodeTopic',
-        params: ['jobs']
+        tab: 'jobs'
       }, {
         name: '交易',
-        api: 'getNodeTopic',
-        params: ['deals']
+        tab: 'deals'
       }]
     }
   }
@@ -90,7 +81,7 @@ export default class TopicList extends Component {
               tabLabel={tab.name}
               key={index}
               // 数据请求方法
-              fetch={() => { return v2ex[tab.api](...(tab.params || [])) }}
+              fetch={() => { return v2ex.getTabTopic(tab.tab) }}
               // 渲染 item
               renderItem={({item, index}) =>
                 <TopicItem

@@ -2,17 +2,17 @@
  * 主题详情页
  */
 
-import React, { Component } from 'react'
-import { View, Alert } from 'react-native'
+import React from 'react'
+import { View, Alert, StatusBar } from 'react-native'
 import Toast from 'react-native-root-toast'
+import ViewClass from '../ViewClass'
 import CommentList from './modules/CommentList'
 import CommentBox from './modules/CommentBox'
 import TopicContent from './modules/TopicContent'
-import { BackButton, BottomNav, Spinner } from '../../components'
-import { baseNavigationOptions } from '../../util'
+import { BottomNav, Spinner } from '../../components'
 import v2ex, { user } from '../../api/v2ex'
 
-export default class TopicDetail extends Component {
+export default class TopicDetail extends ViewClass {
   constructor (props) {
     super(props)
     this.state = {
@@ -23,12 +23,9 @@ export default class TopicDetail extends Component {
       this.getData()
     }
   }
-  static navigationOptions ({ navigation, screenProps }) {
-    return {
-      ...baseNavigationOptions({ navigation, screenProps }),
-      title: '主题',
-      headerLeft: <BackButton text="V2EX" navigation={navigation} />
-    }
+  static navigationOptions = {
+    header: null,
+    headerLeft: null
   }
   async getData () {
     const data = await v2ex.getDetail(this.state.id)
@@ -48,6 +45,11 @@ export default class TopicDetail extends Component {
     if (!data.url) return <Spinner delay={500} />
     return (
       <View style={styles.wrap}>
+        <View style={{ height: 20, backgroundColor: 'white' }}>
+          <StatusBar
+            barStyle="dark-content"
+          />
+        </View>
         <CommentList
           id={data.id}
           screenProps={this.props.screenProps}
@@ -71,6 +73,7 @@ export default class TopicDetail extends Component {
 
 const styles = {
   wrap: {
-    flex: 1
+    flex: 1,
+    backgroundColor: 'white'
   }
 }

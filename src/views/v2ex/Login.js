@@ -134,7 +134,7 @@ const styles = {
     fontSize: 28
   },
   form: {
-    padding: 20
+    padding: 30
   },
   between: {
     justifyContent: 'space-between'

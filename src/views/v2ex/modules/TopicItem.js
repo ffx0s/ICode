@@ -4,7 +4,6 @@
 
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, Image, TouchableOpacity, TouchableHighlight } from 'react-native'
-import { dateFrom } from '../../../util'
 
 export default class TopicItem extends Component {
   render () {
@@ -31,11 +30,15 @@ export default class TopicItem extends Component {
             </View>
             <View style={styles.row}>
               {/* 发布时间 */}
-              <Text style={[styles.gray, styles.smallFont, { marginRight: 10 }]}>{dateFrom(new Date(item.created * 1000))}</Text>
-              <TouchableHighlight style={styles.reply}>
-                {/* 回复数量 */}
-                <Text style={[styles.smallFont, styles.white]}>{item.replies}</Text>
-              </TouchableHighlight>
+              <Text style={[styles.gray, styles.smallFont, { marginRight: 10 }]}>{item.created}</Text>
+              {
+                item.replies ? (
+                  <TouchableHighlight style={styles.reply}>
+                    {/* 回复数量 */}
+                    <Text style={[styles.smallFont, styles.white]}>{item.replies}</Text>
+                  </TouchableHighlight>
+                ) : null
+              }
             </View>
           </View>
         </View>
@@ -47,18 +50,9 @@ export default class TopicItem extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    padding: 10,
-    marginLeft: 5,
-    marginRight: 5,
-    marginVertical: 3,
+    padding: 12,
     borderColor: '#ddd',
-    borderWidth: 0.5,
-    borderRadius: 2,
-    shadowColor: 'gray',
-    shadowOffset: {width: 0.5, height: 0.5},
-    shadowOpacity: 0.4,
-    shadowRadius: 1,
-    elevation: 2
+    borderBottomWidth: 0.5
   },
   row: {
     justifyContent: 'space-between',
@@ -68,6 +62,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     marginBottom: 10,
+    lineHeight: 22,
     color: '#212121'
   },
   smallFont: {

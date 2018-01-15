@@ -2,14 +2,14 @@
  * 知乎日报首页
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import { StyleSheet, View, TouchableOpacity, DeviceEventEmitter } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Swiper, ScrollList } from '../../components'
-import { baseNavigationOptions } from '../../util'
 import zhihu from '../../api/zhihu'
 import Category from './modules/Category'
 import ThemeItem from './modules/ThemeItem'
+import ViewClass from '../ViewClass'
 
 const MenuButton = props => {
   return (
@@ -25,11 +25,11 @@ const MenuButton = props => {
   )
 }
 
-export default class extends Component {
+export default class extends ViewClass {
   static navigationOptions ({ navigation, screenProps }) {
     const { params = {} } = navigation.state
     return {
-      ...baseNavigationOptions({ navigation, screenProps }),
+      ...ViewClass.navigationOptions({ navigation, screenProps }),
       headerTitle: params.title || '今日热闻',
       headerRight: <MenuButton navigation={navigation} />
     }

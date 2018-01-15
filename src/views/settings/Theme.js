@@ -2,22 +2,23 @@
  * 主题设置页
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import {
   StyleSheet, View, Button, Image, ScrollView, TouchableHighlight,
   DeviceEventEmitter
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Toast from 'react-native-root-toast'
-import { baseNavigationOptions, deviceW, deviceH } from '../../util'
+import ViewClass from '../ViewClass'
+import { deviceW, deviceH } from '../../util'
 import { BackButton } from '../../components'
 import themeData from '../../data/theme.json'
 import service from '../../api'
 
-export default class Settings extends Component {
+export default class Settings extends ViewClass {
   static navigationOptions ({ navigation, screenProps }) {
     return {
-      ...baseNavigationOptions({ navigation, screenProps }),
+      ...ViewClass.navigationOptions({ navigation, screenProps }),
       title: '更换主题',
       headerLeft: <BackButton text="取消" navigation={navigation} />,
       headerRight: (

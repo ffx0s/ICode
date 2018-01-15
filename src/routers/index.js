@@ -1,5 +1,4 @@
 import React from 'react'
-import { StatusBar } from 'react-native'
 import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation'
 
 import Guide from '../views/guide'
@@ -15,9 +14,6 @@ import Settings from '../views/settings'
 import Theme from '../views/settings/Theme'
 import AboutICode from '../views/settings/AboutICode'
 import AboutAuthor from '../views/settings/AboutAuthor'
-
-// 设置状态栏样式
-StatusBar.setBarStyle('light-content')
 
 const tabBarComponent = props => {
   return <TabBarBottom {...props} activeTintColor={props.screenProps.theme.color} />

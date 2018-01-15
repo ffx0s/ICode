@@ -2,21 +2,16 @@
  * Trending 列表页
  */
 
-import React, { Component } from 'react'
-import {
-  StyleSheet,
-  View
-} from 'react-native'
+import React from 'react'
+import { StyleSheet, View } from 'react-native'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
-
+import ViewClass from '../ViewClass'
 import { ScrollList } from '../../components'
-import { baseNavigationOptions, getScrollableTabViewProps } from '../../util'
+import { getScrollableTabViewProps } from '../../util'
 import TrendingItem from './modules/TrendingItem'
 import github from '../../api/github'
 
-export default class TrendingList extends Component {
-  static navigationOptions = baseNavigationOptions
-
+export default class TrendingList extends ViewClass {
   constructor (props) {
     super(props)
     this.state = {

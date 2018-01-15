@@ -4,7 +4,6 @@
 
 import React from 'react'
 import { Dimensions } from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons'
 import { ScrollableTabBar } from 'react-native-scrollable-tab-view'
 
 export const { width: deviceW, height: deviceH } = Dimensions.get('window')
@@ -18,36 +17,6 @@ export const placeholderImage = require('../assets/images/placeholder-image.png'
  * loading image
  */
 export const loadingImage = require('../assets/images/loading.gif')
-
-// 路由与图标的映射
-let iconsMap = {
-  'Daily': 'ios-paper',
-  'V2ex': 'logo-vimeo',
-  'Github': 'logo-github',
-  'Settings': 'md-settings'
-}
-
-/**
- * 视图通用 navigation options
- */
-export function baseNavigationOptions ({ navigation, screenProps }) {
-  return {
-    title: navigation.state.routeName,
-    tabBarIcon: ({ tintColor, focused }) => <Icon name={iconsMap[navigation.state.routeName]} size={22} color={focused ? screenProps.theme.color : '#666'}/>,
-    headerTitleStyle: {
-      color: 'white'
-    },
-    headerBackTitleStyle: {
-      color: 'white'
-    },
-    headerStyle: {
-      backgroundColor: screenProps.theme.color,
-      borderBottomColor: screenProps.theme.color
-    },
-    headerLeft: null,
-    headerRight: null
-  }
-}
 
 /**
  * 获取 ScrollTab 全局配置

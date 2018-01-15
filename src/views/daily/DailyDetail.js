@@ -2,7 +2,7 @@
  * 知乎新闻详情页
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import {
   Image, StyleSheet, Text, View, Animated, TouchableHighlight,
   DeviceEventEmitter
@@ -10,11 +10,9 @@ import {
 import HTMLView from 'react-native-htmlview'
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
 import LinearGradient from 'react-native-linear-gradient'
-import {
-  baseNavigationOptions, deviceW, htmlViewStyles,
-  placeholderImage, sleep
-} from '../../util'
+import { deviceW, htmlViewStyles, placeholderImage, sleep } from '../../util'
 import { WebViewComponent, Spinner, BottomNav } from '../../components'
+import ViewClass from '../ViewClass'
 import zhihu from '../../api/zhihu'
 
 let images = []
@@ -46,12 +44,10 @@ function getContent (html) {
   return content.slice(content.indexOf(startTag) + startTag.length, content.indexOf(endTag))
 }
 
-export default class DailyDetail extends Component {
-  static navigationOptions ({ navigation, screenProps }) {
-    return {
-      ...baseNavigationOptions({ navigation, screenProps }),
-      header: null
-    }
+export default class DailyDetail extends ViewClass {
+  static navigationOptions = {
+    headerLeft: null,
+    header: null
   }
 
   constructor (props) {
