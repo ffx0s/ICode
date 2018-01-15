@@ -2,10 +2,11 @@
  * v2ex 相关接口
  */
 
-import { Request, localStorage } from '../util'
+import { Request, localStorage, removeSpace } from '../util'
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
 
+// const apiDomain = 'https://www.v2ex.com'
 const apiDomain = global.__DEV__ ? 'http://127.0.0.1:3000/mock/11' : 'https://www.v2ex.com'
 const request = new Request()
 const baseHeaders = {
@@ -18,24 +19,23 @@ const basePostHeaders = {
   'Content-type': 'application/x-www-form-urlencoded'
 }
 const baseResponse = response => {
-  console.log(response)
   if (response.url === 'https://www.v2ex.com/signin/cooldown') {
     Alert.alert('', '由于当前 IP 在短时间内的登录尝试次数太多，目前暂时不能继续尝试。')
   }
   return response
 }
-
-request.options.headers = baseHeaders
-
-// 统一处理 http 响应状态
-request.response = response => {
+const loadParser = async response => {
+  console.log(response)
   if (response.status !== 200) {
     console.log(response.status, response)
-    return []
-  } else {
-    return response.json()
   }
+  const body = await response.text()
+  const once = parser.load(body).getOnce()
+  once && user.set({ once })
+  return response
 }
+
+request.options.headers = baseHeaders
 
 /**
  * 解析器 - 用于解析 html 获取对应数据
@@ -73,10 +73,17 @@ class Parser {
     return {}
   }
   /**
-   * 获取登录失败返回的提示
+   * 获取失败返回的提示
    */
   getProblem () {
     const el = this.$('.problem li').eq(0)
+    return el.length ? el.text() : ''
+  }
+  /**
+   * 获取失败返回的消息
+   */
+  getMessage () {
+    const el = this.$('.message')
     return el.length ? el.text() : ''
   }
   /**
@@ -103,7 +110,8 @@ class Parser {
    * 获取 once
    */
   getOnce () {
-    return this.$('#Top td').eq(2).find('a').eq(5).attr('onclick').slice(0, -4).split('once=')[1]
+    const attr = this.$('#Top td').eq(2).find('a').eq(5).attr('onclick')
+    return attr ? attr.slice(0, -4).split('once=')[1] : ''
   }
   /**
    * 获取登录状态 - 通过头部通栏判断
@@ -129,6 +137,41 @@ class Parser {
   hasCheckin () {
     return this.$('#Main input[value="查看我的账户余额"]').length > 0
   }
+  /**
+   * 获取主题列表
+   */
+  getTopicItems () {
+    const result = []
+    const items = this.$('#Main .box').eq(0).find('table')
+    if (items.length) {
+      items.each((i, el) => {
+        const links = this.$(el).find('a')
+        const id = links.eq(1).attr('href').split('#')[0].split('/')[2]
+        const title = links.eq(1).text()
+        const replies = links.eq(5).text()
+        const url = `${apiDomain}/t/${id}`
+        const member = {
+          username: links.eq(3).text(),
+          avatar_normal: links.eq(0).find('img').attr('src')
+        }
+        const node = {
+          name: links.eq(2).attr('href').split('/')[2],
+          title: links.eq(2).text()
+        }
+        const created = removeSpace(this.$(el).find('.fade').text().split('  •  ')[2])
+        result.push({
+          id,
+          title,
+          // url,
+          replies,
+          member,
+          node,
+          created
+        })
+      })
+    }
+    return result
+  }
 }
 
 /**
@@ -148,9 +191,8 @@ class Login {
   getData () {
     return this.request
       .get(this.loginUrl)
-      .then(response => response.text())
-      .then(body => {
-        parser.load(body)
+      .then(loadParser)
+      .then(response => {
         this.data = {
           ...parser.getCode(),
           fields: parser.getFields(),
@@ -174,6 +216,7 @@ class Login {
     console.log('submit：', data)
     return this.request
       .post(this.loginUrl, data, { headers: { ...basePostHeaders, 'referer': `${apiDomain}/signin` } })
+      .then(loadParser)
       .then(this.check.bind(this))
   }
   /**
@@ -181,8 +224,6 @@ class Login {
    * @param {Object} response 响应体
    */
   async check (response) {
-    const body = await response.text()
-    parser.load(body)
     const problem = parser.getProblem()
     if (problem) {
       this.data = {
@@ -215,7 +256,7 @@ class User {
       // 自动签到
       const value = await localStorage.get('AUTO_CHECKIN')
       if (data.name && (!value || value === 'true')) {
-        this.checkin()
+        this.checkin().then(({ problem }) => { problem && Alert.alert(problem) })
       }
     })
     return this
@@ -230,13 +271,11 @@ class User {
     this.data = {}
   }
   getSettings () {
-    // const apiDomain = 'https://www.v2ex.com'
     this.waiting = true
     return this.request
       .get(`${apiDomain}/settings`)
-      .then(response => { return response.text() })
-      .then(body => {
-        parser.load(body)
+      .then(loadParser)
+      .then(response => {
         this.set(parser.getUserSettings())
         this.waiting = false
         return this.data
@@ -246,13 +285,11 @@ class User {
    * 退出登录
    */
   logout () {
-    // const apiDomain = 'https://www.v2ex.com'
     const referer = `${apiDomain}/signout?once=${this.data.once}`
     return this.request
       .get(referer, {}, { headers: { referer } })
-      .then(response => response.text())
-      .then(body => {
-        parser.load(body)
+      .then(loadParser)
+      .then(response => {
         if (!parser.getLoginStatus().status) {
           this.clear()
           return { error: null }
@@ -264,31 +301,30 @@ class User {
    * 签到
    */
   async checkin () {
-    // const apiDomain = 'https://www.v2ex.com'
     const url = `${apiDomain}/mission/daily/redeem?once=${this.data.once}`
     const referer = `${apiDomain}/mission/daily`
     return this.request
       .get(url, {}, { headers: { referer } })
-      .then(response => response.text())
-      .then(body => {
-        parser.load(body)
-        const result = { hasCheckin: parser.hasCheckin(), once: parser.getOnce() }
-        this.set(result)
-        return result
+      .then(loadParser)
+      .then(response => {
+        const hasCheckin = parser.hasCheckin()
+        if (hasCheckin) {
+          this.set({ hasCheckin })
+          return {}
+        }
+        return { problem: `签到失败，${parser.getMessage()}` }
       })
   }
   /**
    * 发送评论
    */
   sendComment (id, content) {
-    // const apiDomain = `https://www.v2ex.com`
     const url = `${apiDomain}/t/${id}`
     return this.request
       .post(url, { content, once: this.data.once }, { ...basePostHeaders, headers: { referer: url } })
-      .then(async response => {
+      .then(loadParser)
+      .then(response => {
         if (response.url.split('#')[0] === url) {
-          const body = await response.text()
-          parser.load(body)
           return { problem: parser.getProblem() }
         }
         return { error: '发送评论出错' }
@@ -302,36 +338,24 @@ export const login = new Login()
 
 export default {
   /**
-   * 获取最新主题
+   * 获取指定 tab 的主题
+   * @param {String} tab tab
    */
-  getLastest () {
-    return request.get(`${apiDomain}/api/topics/latest.json`)
-  },
-  /**
-   * 获取最热主题
-   */
-  getHot () {
-    return request.get(`${apiDomain}/api/topics/hot.json`)
+  getTabTopic (tab) {
+    return request.get(`${apiDomain}/?tab=${tab}`).then(loadParser).then(parser.getTopicItems.bind(parser))
   },
   /**
    * 获取主题详情
    * @param {Number} id 主题id
    */
   getDetail (id) {
-    return request.get(`${apiDomain}/api/topics/show.json?id=${id}`)
-  },
-  /**
-   * 获取指定节点的主题
-   * @param {String} node 节点
-   */
-  getNodeTopic (node) {
-    return request.get(`${apiDomain}/api/topics/show.json?node_name=${node}`)
+    return request.get(`${apiDomain}/api/topics/show.json?id=${id}`).then(response => response.json())
   },
   /**
    * 获取主题评论
    * @param {Number} id 主题id
    */
   getComment (id) {
-    return request.get(`${apiDomain}/api/replies/show.json?topic_id=${id}`)
+    return request.get(`${apiDomain}/api/replies/show.json?topic_id=${id}`).then(response => response.json())
   }
 }
