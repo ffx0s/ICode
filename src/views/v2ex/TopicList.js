@@ -6,11 +6,10 @@ import React from 'react'
 import { StyleSheet, View, TouchableOpacity, Alert } from 'react-native'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 import Icon from 'react-native-vector-icons/Ionicons'
-
-import { ScrollList } from '../../components'
+import { ScrollList, Transition } from '../../components'
 import { getScrollableTabViewProps } from '../../util'
-
 import TopicItem from './modules/TopicItem'
+import TopicItemShell from './modules/TopicItem.shell'
 import v2ex, { user } from '../../api/v2ex'
 import ViewClass from '../ViewClass'
 
@@ -27,6 +26,16 @@ const MenuButton = props => {
       <Icon name="md-person" size={26} color="white" />
     </TouchableOpacity>
   )
+}
+
+const Shell = props => {
+  const el = []
+  let count = 8
+  while (count) {
+    el.push(<TopicItemShell key={count} />)
+    count--
+  }
+  return el
 }
 
 export default class TopicList extends ViewClass {
@@ -65,32 +74,43 @@ export default class TopicList extends ViewClass {
         tab: 'deals'
       }]
     }
+    this._loadStatus = {}
+  }
+
+  fetch (tab) {
+    return v2ex.getTabTopic(tab).then(result => {
+      if (!this._loadStatus[tab]) {
+        this._loadStatus[tab] = true
+        setTimeout(() => { this.refs[`shell-${tab}`].remove() }, 300)
+      }
+      return result
+    })
   }
 
   render () {
-    if (!this.state.tabs.length) return null
-
     return (
       <View style={styles.container}>
         <ScrollableTabView
           {...getScrollableTabViewProps(this)}
         >
           {this.state.tabs.map((tab, index) => {
-            return <ScrollList
-              // tab 标题
-              tabLabel={tab.name}
-              key={index}
-              // 数据请求方法
-              fetch={() => { return v2ex.getTabTopic(tab.tab) }}
-              // 渲染 item
-              renderItem={({item, index}) =>
-                <TopicItem
-                  item={item}
-                  onPress={() => { this.props.navigation.navigate('TopicDetail', { id: item.id, data: item }) }}
+            return (
+              <View key={index} tabLabel={tab.name}>
+                <ScrollList
+                  fetch={() => { return this.fetch(tab.tab) }}
+                  renderItem={({item, index}) =>
+                    <TopicItem
+                      item={item}
+                      onPress={() => { this.props.navigation.navigate('TopicDetail', { id: item.id, data: item }) }}
+                    />
+                  }
+                  screenProps={this.props.screenProps}
                 />
-              }
-              screenProps={this.props.screenProps}
-            />
+                <Transition ref={`shell-${tab.tab}`} style={{ position: 'absolute', width: '100%' }}>
+                  <Shell />
+                </Transition>
+              </View>
+            )
           })}
         </ScrollableTabView>
       </View>

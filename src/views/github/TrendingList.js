@@ -6,10 +6,21 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 import ViewClass from '../ViewClass'
-import { ScrollList } from '../../components'
+import { ScrollList, Transition } from '../../components'
 import { getScrollableTabViewProps } from '../../util'
 import TrendingItem from './modules/TrendingItem'
+import TrendingItemShell from './modules/TrendingItem.shell'
 import github from '../../api/github'
+
+const Shell = props => {
+  const el = []
+  let count = 6
+  while (count) {
+    el.push(<TrendingItemShell key={count} />)
+    count--
+  }
+  return el
+}
 
 export default class TrendingList extends ViewClass {
   constructor (props) {
@@ -29,6 +40,17 @@ export default class TrendingList extends ViewClass {
         params: ['monthly']
       }]
     }
+    this._loadStatus = {}
+  }
+
+  fetch ({ api, params, name }) {
+    return github[api](...(params || [])).then(result => {
+      if (!this._loadStatus[name]) {
+        this._loadStatus[name] = true
+        setTimeout(() => { this.refs[`shell-${name}`].remove() }, 300)
+      }
+      return result
+    })
   }
 
   render () {
@@ -40,22 +62,29 @@ export default class TrendingList extends ViewClass {
           {...getScrollableTabViewProps(this)}
         >
           {this.state.tabs.map((tab, index) => {
-            return <ScrollList
-              // tab 标题
-              tabLabel={tab.name}
-              key={index}
-              // 数据请求方法
-              fetch={github[tab.api]}
-              fetch={() => { return github[tab.api](...(tab.params || [])) }}
-              // 渲染 item
-              renderItem={({item, index}) =>
-                <TrendingItem
-                  item={item}
-                  onPress={() => { this.props.navigation.navigate('WebView', { uri: `https://github.com/${item.url}`, title: 'Repository' }) }}
+            return (
+              <View key={index} tabLabel={tab.name}>
+                <ScrollList
+                  // tab 标题
+                  tabLabel={tab.name}
+                  key={index}
+                  // 数据请求方法
+                  fetch={github[tab.api]}
+                  fetch={() => { return this.fetch(tab) }}
+                  // 渲染 item
+                  renderItem={({item, index}) =>
+                    <TrendingItem
+                      item={item}
+                      onPress={() => { this.props.navigation.navigate('WebView', { uri: `https://github.com/${item.url}`, title: 'Repository' }) }}
+                    />
+                  }
+                  screenProps={this.props.screenProps}
                 />
-              }
-              screenProps={this.props.screenProps}
-            />
+                <Transition ref={`shell-${tab.name}`} style={{ position: 'absolute', width: '100%', backgroundColor: '#e9e9ef' }}>
+                  <Shell />
+                </Transition>
+              </View>
+            )
           })}
         </ScrollableTabView>
       </View>

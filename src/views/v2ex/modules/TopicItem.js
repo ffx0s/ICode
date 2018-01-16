@@ -26,7 +26,7 @@ export default class TopicItem extends Component {
               {/* 用户名 */}
               <Text style={styles.gray}>{item.member.username}</Text>
               {/* 帖子发布节点 */}
-              <Text style={[styles.gray, styles.smallFont, { marginLeft: 10 }]}>· {item.node.title}</Text>
+              <Text style={[styles.gray, styles.smallFont, { marginLeft: 5 }]}>· {item.node.title}</Text>
             </View>
             <View style={styles.row}>
               {/* 发布时间 */}

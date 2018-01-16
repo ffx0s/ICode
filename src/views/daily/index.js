@@ -5,10 +5,11 @@
 import React from 'react'
 import { StyleSheet, View, TouchableOpacity, DeviceEventEmitter } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { Swiper, ScrollList } from '../../components'
+import { Swiper, SwiperShell, ScrollList, Transition } from '../../components'
 import zhihu from '../../api/zhihu'
 import Category from './modules/Category'
 import ThemeItem from './modules/ThemeItem'
+import ThemeItemShell from './modules/ThemeItem.shell'
 import ViewClass from '../ViewClass'
 
 const MenuButton = props => {
@@ -41,12 +42,15 @@ export default class extends ViewClass {
       imgList: []
     }
     this._categoryId = ''
+    this._timer = null
   }
 
   loadData (categoryId) {
     return zhihu[categoryId ? 'getThemeList' : 'getLastest'](categoryId)
       .then(data => {
         this.setState({ imgList: data.top_stories ? this.computeImgList(data.top_stories) : [] })
+        clearTimeout(this._timer)
+        this.refs.shell.hide()
         return data.stories
       })
   }
@@ -56,6 +60,10 @@ export default class extends ViewClass {
     if (this._categoryId) {
       this.setState({ imgList: [] })
     }
+    clearTimeout(this._timer)
+    this._timer = setTimeout(() => {
+      this.refs.shell.show()
+    }, 500)
     this.props.navigation.setParams({ title: category.name })
     this.refs.ScrollList.setState({ isLoading: true, data: [] })
     this.refs.ScrollList.refresh()
@@ -94,6 +102,14 @@ export default class extends ViewClass {
           }
           screenProps={this.props.screenProps}
         />
+        <Transition ref="shell" style={{ position: 'absolute', top: 0, width: '100%' }}>
+          <SwiperShell />
+          <ThemeItemShell />
+          <ThemeItemShell />
+          <ThemeItemShell />
+          <ThemeItemShell />
+          <ThemeItemShell />
+        </Transition>
       </View>
     )
   }

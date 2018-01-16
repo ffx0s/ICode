@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 
 export class Group extends Component {
   static propTypes = {
-    footer: PropTypes.any,
     borderWidthAuto: PropTypes.bool
   }
 
