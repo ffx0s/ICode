@@ -24,7 +24,7 @@ let tabNavigatorConfig = {
   tabBarComponent,
   tabBarPosition: 'bottom',
   swipeEnabled: false,
-  initialRouteName: 'Github',
+  initialRouteName: 'Daily',
   lazy: true // 懒加载 Tab
   // animationEnabled: true
 }
