@@ -34,7 +34,7 @@ export class Transition extends Component {
     this.setOpacity(0)
   }
   remove () {
-    this.isRender = true
+    this.isRemove = true
     this.setOpacity(0)
   }
   renderChildren () {
