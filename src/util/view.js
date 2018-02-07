@@ -31,7 +31,7 @@ export function getScrollableTabViewProps (context) {
     tabBarBackgroundColor: 'white',
     ref: 'scrollableTabView',
     initialPage: 0,
-    // prerenderingSiblingsNumber: 1,
+    prerenderingSiblingsNumber: 1,
     renderTabBar () { return <ScrollableTabBar style={{height: 40, borderWidth: 1, borderBottomColor: '#ddd', elevation: 2}} itemstyle={{height: 39}} /> }
   }
 }
