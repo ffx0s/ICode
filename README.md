@@ -1,4 +1,4 @@
-﻿# 知乎热闻 丶 V2ex 丶 Github trending  👉React Native IOS
+﻿# 聚合阅读应用，基于 React Native IOS 
 
 <img src="./src/assets/images/ICode-1.gif" width="320" hspace="20" />
 <br />
