@@ -1,6 +1,5 @@
-﻿# 基于React-native开发的聚合阅读APP
+﻿# 知乎热闻 丶 V2ex 丶 Github trending  👉React Native IOS
 
-## 截图
 <img src="./src/assets/images/ICode-1.gif" width="320" hspace="20" />
 <br />
 <img src="./src/assets/images/ICode-2.gif" width="320" hspace="20" />
