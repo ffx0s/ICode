@@ -1,9 +1,10 @@
-﻿# 基于React-native开发的聚合阅读APP
+﻿# ICode  
+基于 React Native IOS 的聚合阅读应用，包含知乎热点新闻、v2ex、github、Github trending 的内容。
 
 ## 截图
-<img src="./src/assets/images/ICode-1.gif" width="320" hspace="20" />
+<img src="https://static.webfed.cn/o_1daq831menm9e84np7cv19id2a.jpg" />
 <br />
-<img src="./src/assets/images/ICode-2.gif" width="320" hspace="20" />
+<img src="https://static.webfed.cn/o_1daq8a8j01o91cqc1q3m1p4ied82j.jpg" />
 
 ## 项目版本
 `"react": "16.0.0"`  
