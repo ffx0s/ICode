@@ -1,4 +1,4 @@
-﻿# ICode  
+# ICode  
 基于 React Native IOS 的聚合阅读应用，包含知乎热点新闻、v2ex、github、Github trending 的内容。
 
 ## 截图
