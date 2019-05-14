@@ -4,7 +4,7 @@
 
 import { Request } from '../util'
 
-const apiDomain = global.__DEV__ ? 'http://127.0.0.1:3000/mock/11' : 'https://news-at.zhihu.com'
+const apiDomain = global.__DEV__ ? 'https://api.webfed.cn/mock/11' : 'https://news-at.zhihu.com'
 const request = new Request()
 
 request.options.headers = {

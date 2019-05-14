@@ -54,7 +54,7 @@ export default class Login extends Component {
         <Image
           style={styles.backgroundImage}
           blurRadius={8}
-          source={{ uri: 'https://o818xvhxo.qnssl.com/ceddJB493dB4A.jpg' }}
+          source={{ uri: 'https://static.webfed.cn/ceddJB493dB4A.jpg' }}
         />
         <View style={styles.top}>
           <Text style={styles.logo}>V2EX</Text>

@@ -27,7 +27,7 @@ export default class About extends ViewClass {
         renderBackground={() =>
           <View key="background">
             <Image source={{
-              uri: 'https://o818xvhxo.qnssl.com/ceddJB493dB4A.jpg',
+              uri: 'https://static.webfed.cn/ceddJB493dB4A.jpg',
               width: deviceW,
               height: PARALLAX_HEADER_HEIGHT
             }}/>
@@ -44,7 +44,7 @@ export default class About extends ViewClass {
         renderForeground={() =>
           <View key="parallax-header" style={ styles.parallaxHeader }>
             <Image style={ styles.avatar } source={{
-              uri: 'https://o818xvhxo.qnssl.com/logo.jpg',
+              uri: 'https://static.webfed.cn/logo.jpg',
               width: AVATAR_SIZE,
               height: AVATAR_SIZE
             }}/>

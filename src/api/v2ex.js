@@ -6,8 +6,8 @@ import { Request, localStorage, removeSpace } from '../util'
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
 
-// const apiDomain = 'https://www.v2ex.com'
-const apiDomain = global.__DEV__ ? 'http://127.0.0.1:3000/mock/11' : 'https://www.v2ex.com'
+const apiDomain = 'https://www.v2ex.com'
+// const apiDomain = global.__DEV__ ? 'https://api.webfed.cn/mock/11' : 'https://www.v2ex.com'
 const request = new Request()
 const baseHeaders = {
   'host': 'www.v2ex.com',
@@ -149,7 +149,6 @@ class Parser {
         const id = links.eq(1).attr('href').split('#')[0].split('/')[2]
         const title = links.eq(1).text()
         const replies = links.eq(5).text()
-        const url = `${apiDomain}/t/${id}`
         const member = {
           username: links.eq(3).text(),
           avatar_normal: links.eq(0).find('img').attr('src')
